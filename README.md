@@ -1,6 +1,7 @@
 系统简介
 
-    BgAdmin后台管理系统，是一个基于beego开发的易用、易扩展、界面友好的轻量级功能权限管理系统。前端基于Ace-Admin（V1.4）,并采用RestFul设计风格。
+    BgAdmin后台管理系统，是一个基于beego开发的易用、易扩展、界面友好的轻量级功能权限管理系统。
+    前端基于Ace-Admin（V1.4）,并采用RestFul设计风格。
 
 
 
@@ -34,6 +35,11 @@ http://demo.saneryao.com
 
 
 效果展示：
+
+![Image text](http://www.saneryao.com/uploads/others/demo1.png)
+
+![Image text](http://www.saneryao.com/uploads/others/demo2.png)
+
 
 
 
