@@ -1,0 +1,23 @@
+.ace-nav>li:first-child {
+    border-left-width: 0;
+}
+.ace-nav>li {
+    line-height: 45px;
+    height: 45px;
+    border-left: 0;
+    padding: 0;
+    position: relative;
+    float: left;
+}
+.ace-nav>li>a {
+    background-color: #438EB9;
+}
+#dynamic_table {
+    width: 100% !important;
+}
+.xAxis >.tickLabel {
+    -o-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    -webkit-transform:rotate(-45deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}

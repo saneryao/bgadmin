@@ -1,0 +1,29 @@
+* { margin: 0; padding: 0; }
+html { width:100%; height:100%; }
+body {
+    width: 100%;
+    height: 100%;
+    
+}
+#main-container {
+  width: 100%;
+  height: 100%;
+  background: url('/static/img/login_bkg.gif') top center no-repeat;
+  background-size: cover;
+}
+.custom-layout-container {
+   position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+.custom-layout-row {
+   display: table-cell;
+   vertical-align: middle;
+   text-align: center;
+}
+.custom-layout-form {
+    border-radius: 8px;
+    box-shadow: #000 0px 0px 10px;
+}
