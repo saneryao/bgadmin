@@ -7,17 +7,20 @@
 
 开源地址：
 
-github：
-https://github.com/saneryao/bgadmin
+    github：
+    https://github.com/saneryao/bgadmin
 
 
 
 
 演示地址：
 
-三二幺：
-http://demo.saneryao.com
-用户名：saneryao    密码：321321
+    三二幺：
+    http://demo.saneryao.com
+    用户名：saneryao    密码：321321
+
+
+
 
 
 系统特点：
