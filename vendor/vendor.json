@@ -1,0 +1,181 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "gLMoSYex7XULj8PS+O+j3uTNtJ0=",
+			"path": "github.com/Unknwon/goconfig",
+			"revision": "3dba17dd7b9ec8509b3621a73a30a4b333eb28da",
+			"revisionTime": "2019-04-25T19:49:16Z"
+		},
+		{
+			"checksumSHA1": "6IDGuYAVmbGtioEzFHcwn11ioRA=",
+			"path": "github.com/astaxie/beego",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "rSvqVVn0tYvzyi+9LzIjbK8I9wY=",
+			"path": "github.com/astaxie/beego/cache",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "SXCTCRF71lh7LUgEAFT6m2ZW/8s=",
+			"path": "github.com/astaxie/beego/cache/redis",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "qFmnMbrtRzi14+5scXmKq+/9xyU=",
+			"path": "github.com/astaxie/beego/config",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "4kUg/nlpuAOXJ5XKxoUVBSQp4dc=",
+			"path": "github.com/astaxie/beego/context",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "6CUKSTe7nirUqQ7kctbv7kkF1eA=",
+			"path": "github.com/astaxie/beego/context/param",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "HMU+NOaq+G8DCbMO8eTfcngwfBs=",
+			"path": "github.com/astaxie/beego/grace",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "4KHPBEUsFohBquGuV7Rj3f6zCaA=",
+			"path": "github.com/astaxie/beego/logs",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "cJQITh5R3ethn1nSuOUiFeNPK+0=",
+			"path": "github.com/astaxie/beego/orm",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "RtIdQHyuDKhTl9qlgVftr5tylR8=",
+			"path": "github.com/astaxie/beego/session",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "HsbJ9GtqF6Kf4JXAPeezPCkfUEc=",
+			"path": "github.com/astaxie/beego/session/redis",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "HLDlWdDwL89OlJogJa+jFJewOQc=",
+			"path": "github.com/astaxie/beego/toolbox",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "ujD4IDbBa9+lT+hnMXA7Hb8zpME=",
+			"path": "github.com/astaxie/beego/utils",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "5odCu8Ht6nTdJp7QYhb6ZmX2tN0=",
+			"path": "github.com/astaxie/beego/utils/captcha",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "yYFWixCNI+zOoEjuueaAoZj1Eco=",
+			"path": "github.com/astaxie/beego/validation",
+			"revision": "562060841891249173c5f155de5b473a0797d8eb",
+			"revisionTime": "2019-07-21T14:58:28Z"
+		},
+		{
+			"checksumSHA1": "c6xmF3tIChnHMjE8y5VVFtcxn7g=",
+			"path": "github.com/beego/i18n",
+			"revision": "e9308947f407a24aaa1e7dbe35a01931e99cb255",
+			"revisionTime": "2016-11-01T13:27:42Z"
+		},
+		{
+			"checksumSHA1": "aNZPEOjiyAgS+Y0n19AF8vimMc4=",
+			"path": "github.com/go-sql-driver/mysql",
+			"revision": "877a9775f06853f611fb2d4e817d92479242d1cd",
+			"revisionTime": "2019-05-10T10:23:35Z"
+		},
+		{
+			"checksumSHA1": "dnRSmnsvoNkMHwuPCS1eplqP3yE=",
+			"path": "github.com/gomodule/redigo/redis",
+			"revision": "d3876d43bbbeb98b4d67309b4d3eef49438ef74c",
+			"revisionTime": "2019-07-28T19:03:53Z"
+		},
+		{
+			"checksumSHA1": "CcikTYxxZMd75GL3UwfibQIAWzw=",
+			"path": "github.com/shiena/ansicolor",
+			"revision": "a422bbe96644373c5753384a59d678f7d261ff10",
+			"revisionTime": "2015-11-19T15:19:21Z"
+		},
+		{
+			"checksumSHA1": "PGXERWr02Fit5t8t55+mjrSm0Sk=",
+			"path": "golang.org/x/crypto/acme",
+			"revision": "60c769a6c58655dab1b9adac0d58967dd517cfba",
+			"revisionTime": "2019-08-20T16:16:47Z"
+		},
+		{
+			"checksumSHA1": "nxahH5GyKoRwkf5Rdhqu9WizwgE=",
+			"path": "golang.org/x/crypto/acme/autocert",
+			"revision": "60c769a6c58655dab1b9adac0d58967dd517cfba",
+			"revisionTime": "2019-08-20T16:16:47Z"
+		},
+		{
+			"checksumSHA1": "vL6l4FZWitsxht0uqA/GpDNkNNc=",
+			"path": "golang.org/x/net/idna",
+			"revision": "74dc4d7220e7acc4e100824340f3e66577424772",
+			"revisionTime": "2019-08-11T06:12:18Z"
+		},
+		{
+			"checksumSHA1": "CbpjEkkOeh0fdM/V8xKDdI0AA88=",
+			"path": "golang.org/x/text/secure/bidirule",
+			"revision": "342b2e1fbaa52c93f31447ad2c6abc048c63e475",
+			"revisionTime": "2018-12-15T17:52:45Z"
+		},
+		{
+			"checksumSHA1": "R9iBDY+aPnT+8pyRcqGjXq5QixA=",
+			"path": "golang.org/x/text/transform",
+			"revision": "342b2e1fbaa52c93f31447ad2c6abc048c63e475",
+			"revisionTime": "2018-12-15T17:52:45Z"
+		},
+		{
+			"checksumSHA1": "xNDxEBIuYd45U6bb1ZBfVQQTMIo=",
+			"path": "golang.org/x/text/unicode/bidi",
+			"revision": "342b2e1fbaa52c93f31447ad2c6abc048c63e475",
+			"revisionTime": "2018-12-15T17:52:45Z"
+		},
+		{
+			"checksumSHA1": "OE61CWKF0KBo5hZEMrfhCkQEKg0=",
+			"path": "golang.org/x/text/unicode/norm",
+			"revision": "342b2e1fbaa52c93f31447ad2c6abc048c63e475",
+			"revisionTime": "2018-12-15T17:52:45Z"
+		},
+		{
+			"checksumSHA1": "Q24+t5ryUvt5JJPtPKim1q8hwmI=",
+			"path": "gopkg.in/gomail.v2",
+			"revision": "81ebce5c23dfd25c6c67194b37d3dd3f338c98b1",
+			"revisionTime": "2016-04-11T21:29:32Z"
+		},
+		{
+			"checksumSHA1": "CufsH45bEJa3A2gSb+mYCmIxuS4=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "7b8349ac747c6a24702b762d2c4fd9266cf4f1d6",
+			"revisionTime": "2019-03-19T13:56:12Z"
+		}
+	],
+	"rootPath": "github.com/saneryao/bgadmin"
+}

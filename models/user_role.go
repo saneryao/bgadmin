@@ -1,9 +1,10 @@
 package models
 
+// UserRole 定义用户和角色映射关系
 type UserRole struct {
-	Id     int64
-	UserId int64
-	RoleId int64
+	ID     int64
+	UserID int64
+	RoleID int64
 }
 
 // func (ur *UserRole) TableName() string {

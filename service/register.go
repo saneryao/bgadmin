@@ -13,13 +13,10 @@ import (
 	"time"
 )
 
-/* 功能：注册逻辑（判断邮箱、用户名、密码和验证码）
- * 参数：params注册Form表单数据，ctrl控制器
- * 返回值：ret返回值（true表示登录成功），err错误值（登录失败时给出的错误信息）
- */
+// Register 用户注册的处理逻辑（判断邮箱、用户名、密码和验证码）
 func Register(params *validators.RegisterParams, ctrl *beego.Controller, lang string) (err error) {
 	// 校验验证码
-	if !sysinit.VerifyCode.Verify(params.IdCaptcha, params.Captcha) {
+	if !sysinit.VerifyCode.Verify(params.IDCaptcha, params.Captcha) {
 		err = errors.New(i18n.Tr(lang, "captcha_error"))
 		return
 	}
@@ -56,14 +53,14 @@ func Register(params *validators.RegisterParams, ctrl *beego.Controller, lang st
 	}
 
 	// 生成并保存激活码
-	code := models.Code{UserId: user.Id, Code: utils.GetRandomString(64), CreateTime: time.Now().Unix()}
+	code := models.Code{UserID: user.ID, Code: utils.GetRandomString(64), CreateTime: time.Now().Unix()}
 	if _, err = db.Insert(&code); err != nil {
 		return
 	}
 
 	// 发送激活邮件
 	url := ctrl.Ctx.Request.URL.EscapedPath()
-	url += ctrl.URLFor("ActiveController.Get", ":id", user.Id, ":code", code)
+	url += ctrl.URLFor("ActiveController.Get", ":id", user.ID, ":code", code)
 	if err = utils.SendEmailActiveUser(params.Email, url, lang); err != nil {
 		return
 	}

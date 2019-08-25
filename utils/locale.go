@@ -5,11 +5,9 @@ import (
 	"github.com/beego/i18n"
 )
 
-/* 功能：通过html请求信息中获取语言配置，并设置国际化语言
- * 参数：ctrl（控制器）
- * 返回值：redirect（true表示语言进行了切换需要跳转页面，false表示没有切换不需要跳转）
- *                 lang （设置的网页语言）
- */
+// SetLangVer 通过html请求信息中获取语言配置，并设置国际化语言，
+// 返回值redirect为true表示语言进行了切换需要跳转页面，为false表示没有切换不需要跳转，
+// 返回值lang是设置的网页语言
 func SetLangVer(ctrl *beego.Controller) (redirect bool, lang string) {
 	hasCookie := false
 

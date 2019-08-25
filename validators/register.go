@@ -7,13 +7,13 @@ import (
 	"github.com/saneryao/bgadmin/utils"
 )
 
-// Json数据直接转换成结构体（首字母必须大写）
+// RegisterParams 注册信息等参数
 type RegisterParams struct {
 	Email      string `form:"email" json:"email" valid:"Required;MinSize(4);MaxSize(128);Email"`
 	Username   string `form:"username" json:"username" valid:"Required;MinSize(4);MaxSize(32);AlphaDash"`
 	Password   string `form:"password" json:"password" valid:"Required;MinSize(4);MaxSize(32)"`
 	PwdConfirm string `form:"pwd_confirm" json:"pwd_confirm;MinSize(4);MaxSize(32)"`
-	IdCaptcha  string `form:"captcha_id" json:"captcha_id" valid:"Required;MinSize(8);MaxSize(32);AlphaNumeric"`
+	IDCaptcha  string `form:"captcha_id" json:"captcha_id" valid:"Required;MinSize(8);MaxSize(32);AlphaNumeric"`
 	Captcha    string `form:"captcha" json:"captcha" valid:"Required;Length(4);Numeric"`
 }
 
@@ -22,10 +22,7 @@ type RegisterParams struct {
 // func (this *RegisterParams) Valid(valid *validation.Validation) {
 // }
 
-/* 功能：Form表单数据转化成结构体，并校验数据有效性
- * 参数：loginInfo是转换后的结果（结构体），ctrl是控制器
- * 返回值：result为true表示转换成功，err不为nil表示转换失败
- */
+// ParseRegisterParams 解析表单数据中的注册信息，并校验数据有效性
 func ParseRegisterParams(paramsInfo *RegisterParams, ctrl *beego.Controller) (result bool, err error) {
 	// 格式转换
 	if err = ctrl.ParseForm(paramsInfo); err != nil {

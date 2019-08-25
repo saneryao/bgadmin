@@ -4,7 +4,8 @@ import (
 	"github.com/astaxie/beego"
 )
 
-type SmtpConfig struct {
+// SMTPConfig 定义smtp设置
+type SMTPConfig struct {
 	ServerAddr string
 	ServerPort int
 	From       string
@@ -12,16 +13,14 @@ type SmtpConfig struct {
 	Password   string
 }
 
-var SmtpCfg SmtpConfig
+// SMTPCfg 定义全局可用的smtp设置
+var SMTPCfg SMTPConfig
 
-/* 功能：初始化发送邮件的邮箱设置
- * 参数：空
- * 返回值：空
- */
-func initEmail() {
-	SmtpCfg.ServerAddr = beego.AppConfig.String("smtp::server_addr")
-	SmtpCfg.ServerPort, _ = beego.AppConfig.Int("smtp::server_port")
-	SmtpCfg.From = beego.AppConfig.String("smtp::from")
-	SmtpCfg.Account = beego.AppConfig.String("smtp::account")
-	SmtpCfg.Password = beego.AppConfig.String("smtp::password")
+// initSMTP 初始化发送邮件的邮箱设置
+func initSMTP() {
+	SMTPCfg.ServerAddr = beego.AppConfig.String("smtp::server_addr")
+	SMTPCfg.ServerPort, _ = beego.AppConfig.Int("smtp::server_port")
+	SMTPCfg.From = beego.AppConfig.String("smtp::from")
+	SMTPCfg.Account = beego.AppConfig.String("smtp::account")
+	SMTPCfg.Password = beego.AppConfig.String("smtp::password")
 }

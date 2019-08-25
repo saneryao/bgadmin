@@ -4,23 +4,19 @@ import (
 	"strings"
 )
 
-// Page控制器，继承于admin下的base控制
-// 主要负责后台管理页面的显示
+// PageController 定义一个页面控制器（用于后台管理页面的渲染等）
 type PageController struct {
-	BaseController
+	baseController
 }
 
-/* 功能：beego定义的接口，执行html请求GET方法，
- *             此处默认先显示后台管理html框架（加载html、css、js和导航栏、左侧菜单），
- *             再通过page参数显示左侧菜单对应的子页面
- * 参数：空
- * 返回值：空
- */
-func (this *PageController) Get() {
-	strPage := this.GetString("page")
+// Get 执行http请求GET方法（beego定义的接口，渲染页面）
+// 默认先显示后台管理html框架（加载html、css、js和导航栏、左侧菜单），
+// 再通过page参数显示左侧菜单对应的子页面
+func (api *PageController) Get() {
+	strPage := api.GetString("page")
 	switch {
 	case strPage == "":
-		this.SetTpl("admin/page.tpl",
+		api.SetTpl("admin/page.tpl",
 			"admin/header_admin.tpl",
 			"admin/footer_admin.tpl",
 			"admin/navbar_admin.tpl",
@@ -33,6 +29,8 @@ func (this *PageController) Get() {
 		fallthrough
 	case strings.EqualFold(strPage, "menu"):
 		fallthrough
+	case strings.EqualFold(strPage, "link"):
+		fallthrough
 	case strings.EqualFold(strPage, "demo"):
 		fallthrough
 	case strings.EqualFold(strPage, "grid"):
@@ -44,9 +42,9 @@ func (this *PageController) Get() {
 	case strings.EqualFold(strPage, "resetpwd"):
 		fallthrough
 	case strings.EqualFold(strPage, "profile"):
-		this.Layout = ""
-		this.TplName = "admin/" + strPage + ".tpl"
+		api.Layout = ""
+		api.TplName = "admin/" + strPage + ".tpl"
 	default:
-		this.Abort("Ajax404")
+		api.Abort("Ajax404")
 	}
 }

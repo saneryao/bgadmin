@@ -5,17 +5,19 @@ import (
 	"github.com/saneryao/bgadmin/api/v1"
 )
 
-type FindPwdApi struct {
-	v1.CommonApi
+// FindPwdAPI 定义一个找回密码API（用于用户找回密码等操作）
+type FindPwdAPI struct {
+	v1.CommonAPI
 }
 
-func (this *FindPwdApi) Post() {
+// Post 执行http请求POST方法（beego定义的接口，处理用户找回密码操作）
+func (api *FindPwdAPI) Post() {
 	logs.Info("!!!!!!!!!!POST!!!!!!!!!!")
 	// json := make(map[string]interface{})
 	// json["code"] = true
-	// json["msg"] = this.Tr("redirecting")
-	// json['url'] = this.
+	// json["msg"] = api.Tr("redirecting")
+	// json['url'] = api.
 
-	this.Data["json"] = map[string]interface{}{"code": true, "msg": this.Tr("redirecting"), "url": this.URLFor("ResetPwdController.Get")}
-	this.ServeJSON()
+	api.Data["json"] = map[string]interface{}{"code": true, "msg": api.Tr("redirecting"), "url": api.URLFor("ResetPwdController.Get")}
+	api.ServeJSON()
 }

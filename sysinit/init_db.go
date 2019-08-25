@@ -5,15 +5,11 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/saneryao/bgadmin/models"
 	"net/url"
 )
 
-/* 功能：初始化数据库连接
- * 参数：空
- * 返回值：空
- */
+// initDb 初始化数据库连接
 func initDb() {
 	var err error
 	runmode := beego.AppConfig.String("runmode")
@@ -83,8 +79,10 @@ func initDb() {
 	orm.RegisterModelWithPrefix(prefix, new(models.Profile))
 	orm.RegisterModelWithPrefix(prefix, new(models.Role))
 	orm.RegisterModelWithPrefix(prefix, new(models.Menu))
+	orm.RegisterModelWithPrefix(prefix, new(models.Link))
 	orm.RegisterModelWithPrefix(prefix, new(models.UserRole))
 	orm.RegisterModelWithPrefix(prefix, new(models.RoleMenu))
+	orm.RegisterModelWithPrefix(prefix, new(models.RoleLink))
 	orm.RegisterModelWithPrefix(prefix, new(models.Code))
 	orm.RunSyncdb("default", false, true)
 }

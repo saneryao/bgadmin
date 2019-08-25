@@ -12,6 +12,9 @@
 .ace-nav>li>a {
     background-color: #438EB9;
 }
+.main-container {
+    width: 100%;
+}
 #dynamic_table {
     width: 100% !important;
 }

@@ -12,7 +12,7 @@
 					<tr>
 						<th>{{i18n .Lang "name"}}</th>
 						<th>{{i18n .Lang "icon"}}</th>
-						<th>URL</th>
+						<th>{{i18n .Lang "url"}}</th>
 						<th width="80">{{i18n .Lang "state"}}</th>
 						<th width="80">{{i18n .Lang "operation"}}</th>
 					</tr>
@@ -68,10 +68,10 @@
 					<div class="space-4"></div>
 					<div class="row">
 						<div class="col-sm-2 col-sm-offset-1">
-							<label>URL</label>
+							<label>{{i18n .Lang "url"}}</label>
 						</div>
 						<div class="col-sm-8">
-							<input type="text" name="url" class="form-control" maxlength="255" placeholder="URL" />
+							<input type="text" name="url" class="form-control" maxlength="255" placeholder="{{i18n .Lang "url"}}" />
 						</div>
 					</div>
 
@@ -137,12 +137,12 @@
 			// $('#msg-content').html(info.error);
 			// $('#msg-dialog').modal('show');
 			alert(info.error);
-        }
-        return false;
+		}
+		return false;
 	}
 
 	jQuery(function($) {
-		$("#form-info").validate({  
+		$("#form-info").validate({
 			errorElement:'div',
 			errorPlacement: function(error, element) {
 				if ($(element).next("div").hasClass("tooltip")) {
@@ -186,7 +186,7 @@
 				},
 				serverSide: true,
 				ajax: {
-					url: '{{urlfor "MenusApi.Get"}}',
+					url: '{{urlfor "MenuAPI.Get"}}',
 					type: 'GET',
 					dataType: 'json',
 					data: function(params) {
@@ -251,7 +251,7 @@
 				  {
 					extend: 'pageLength',
 					text: '<i class="fa fa-sort-amount-asc bigger-110 blue"></i> <span class="hidden">{{i18n .Lang "pagelen"}}</span>',
-					className: 'dt-button buttons-collection buttons-copy btn btn-white btn-primary btn-bold'
+					className: 'dt-button buttons-collection buttons-copy btn btn-white btn-primary btn-bold',
 				  },
 				 //  {
 					// extend: 'copy',
@@ -295,7 +295,7 @@
 				],
 				columns: [
 					{ data: 'name', render: function(data, type, full) { if (full.parent_id==0) { return data; } else { return '&nbsp;&nbsp;&nbsp;&nbsp;└' +data; } } },
-					{ data: 'icon', render: function(data) { if (data) { return '<i class="bigger-160 fa '+data+'"></i> &nbsp;' + data; } else { return ''; } } },
+					{ data: 'icon', render: function(data) { if (data) { return '<i class="bigger-150 fa '+data+'"></i> &nbsp;' + data; } else { return ''; } } },
 					{ data: 'url' },
 					{ data: 'state', render: function(data) { if (data == 1) { return '{{i18n .Lang "enable"}}'; } return '{{i18n .Lang "disable"}}'; }  },
 					{ data: -1 },
@@ -311,7 +311,7 @@
 			$('#dynamic_table tbody').on( 'click', 'a#edit', function () {
 				myRow = myTable.row( $(this).parents('tr') );
 				var data = myRow.data();
-				$('#form-info').attr('action', '{{urlfor "MenusApi.Put"}}/'+data.id);
+				$('#form-info').attr('action', '{{urlfor "MenuAPI.Put"}}/'+data.id);
 				$('#form-info').attr('method', 'PUT');
 				$('input[name="name"]').val(data.name);
 				$('input[name="name"]').attr('value',data.name);
@@ -335,7 +335,7 @@
 				if (confirm('确定删除吗？')) {
 					var data = myTable.row( $(this).parents('tr') ).data();
 					$.ajax({
-						url: '{{urlfor "MenusApi.Delete"}}/' + data['id'],
+						url: '{{urlfor "MenuAPI.Delete"}}/' + data['id'],
 						type: 'DELETE',
 						success: function (info) {
 							if (info.code) {
@@ -364,7 +364,7 @@
 			////
 			setTimeout(function() {
 				myTable.button(0).action(function (e, dt, button, config) {
-					$('#form-info').attr('action', '{{urlfor "MenusApi.Post"}}');
+					$('#form-info').attr('action', '{{urlfor "MenuAPI.Post"}}');
 					$('#form-info').attr('method', 'POST');
 					$('input[name="name"]').removeAttr('value');
 					$('input[name="name"]').val('');
@@ -415,7 +415,7 @@
 				$('.dt-buttons').find('a.dt-button').each(function() {
 					if (noBtns > 1) {
 						var div = $(this).find(' > div').first();
-						if(div.length == 1) div.tooltip({container: 'body', title: div.parent().text()});
+						if (div.length == 1) div.tooltip({container: 'body', title: div.parent().text()});
 						else $(this).tooltip({container: 'body', title: $(this).text()});
 					}
 					noBtns++;

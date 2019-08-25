@@ -5,11 +5,10 @@ import (
 	"reflect"
 )
 
-/* 功能：把从表单提交的数据（结构体）合并到原始数据（结构体，一般读取自数据库）
- * 参数：dataOriginal（原始数据，一般读取自数据库，此参数同时也是输出参数，输出成功时最终的合并结果）
- *             dataSubmit（从表单提交的数据）
- * 返回值：err（错误信息，值为nil时表示合并成功，否则合并失败）
- */
+// MergeData 把从表单提交的数据（结构体）合并到原始数据（结构体，一般读取自数据库）,
+// 参数dataOriginal为原始数据，一般读取自数据库，此参数同时也是输出参数，合并成功时最终的结果,
+// 参数dataSubmit是从表单提交的数据,
+// 返回值err为nil时表示合并成功，否则表示合并失败的信息
 func MergeData(dataOriginal interface{}, dataSubmit interface{}) (err error) {
 	typeOfSubmit := reflect.TypeOf(dataSubmit)
 	valueOfSubmit := reflect.ValueOf(dataSubmit)
@@ -55,10 +54,7 @@ func MergeData(dataOriginal interface{}, dataSubmit interface{}) (err error) {
 	return
 }
 
-/* 功能：判断数据是否为空
- * 参数：value（要判断的数据）
- * 返回值：bool（true表示为空，否则不为空）
- */
+// isValueBlank 判断数据是否为空
 func isValueBlank(value reflect.Value) bool {
 	switch value.Kind() {
 	case reflect.String:

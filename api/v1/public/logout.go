@@ -5,12 +5,14 @@ import (
 	"github.com/saneryao/bgadmin/service"
 )
 
-type LogoutApi struct {
-	v1.CommonApi
+// LogoutAPI 定义一个用户注销API（用于用户注销时清理会话信息等操作）
+type LogoutAPI struct {
+	v1.CommonAPI
 }
 
-func (this *LogoutApi) Post() {
-	service.SetLogoutInfo(&this.Controller)
-	this.Data["json"] = map[string]interface{}{"code": true, "msg": this.Tr("redirecting"), "url": this.URLFor("HomeController.Get")}
-	this.ServeJSON()
+// Post 执行http请求POST方法（beego定义的接口，处理用户注销操作）
+func (api *LogoutAPI) Post() {
+	service.SetLogoutInfo(&api.Controller)
+	api.Data["json"] = map[string]interface{}{"code": true, "msg": api.Tr("redirecting"), "url": api.URLFor("HomeController.Get")}
+	api.ServeJSON()
 }

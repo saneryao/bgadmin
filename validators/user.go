@@ -8,10 +8,7 @@ import (
 	"github.com/saneryao/bgadmin/models"
 )
 
-/* 功能：Form表单数据转化成结构体，并校验数据有效性
- * 参数：info是转换后的结果（结构体），ctrl是控制器
- * 返回值：result为true表示转换成功，err不为nil表示转换失败
- */
+// ParseUserInfo 解析表单数据中的用户信息，并校验数据有效性
 func ParseUserInfo(info *models.User, ctrl *beego.Controller) (result bool, err error) {
 	if info.Profile == nil {
 		info.Profile = &models.Profile{}

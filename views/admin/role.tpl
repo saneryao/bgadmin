@@ -88,6 +88,60 @@
 	</div><!-- /.modal-dialog -->
 </div>
 
+<a href="#modal-assign" role="button" class="hidden" data-toggle="modal" id="btn-assign"></a>
+<div id="modal-assign" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header text-info bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="assign-title"></h4>
+			</div>
+			<div class="modal-body lead text-center no-padding" id="assign-content">
+				<form id="form-assign">
+				<fieldset>
+					<div class="space-4"></div>
+					<div class="row no-padding">
+						<div class="col-sm-2 col-sm-offset-1">
+							<label>{{i18n .Lang "name"}}</label>
+						</div>
+						<div class="col-sm-8">
+							<input type="text" name="role" class="form-control" disabled="disabled" placeholder="{{i18n .Lang "role"}}{{i18n .Lang "name"}}" />
+						</div>
+					</div>
+
+					<div class="space-4"></div>
+					<div class="row">
+						<div class="col-sm-2 col-sm-offset-1">
+							<label>{{i18n .Lang "menu"}}</label>
+						</div>
+						<div class="col-sm-8">
+							<select name="relation" class="form-control" required>
+								<option value="1">{{i18n .Lang "enable"}}</option>
+								<option value="0">{{i18n .Lang "disable"}}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="space-4"></div>
+					<div class="row">
+						<div class="col-xs-7 col-xs-offset-4 col-sm-8 col-sm-offset-3 pull-left text-left">
+							<button type="reset" class="btn btn-danger">
+								<i class="ace-icon fa fa-refresh"></i>
+								<span class="bigger-110">{{i18n .Lang "reset"}}</span>
+							</button>&nbsp;&nbsp;&nbsp;&nbsp;
+							<button type="sumbit" class="btn btn-success">
+								<i class="ace-icon fa fa-check"></i>
+								<span class="bigger-110">{{i18n .Lang "save"}}</span>
+							</button>
+						</div>
+					</div>
+					</fieldset>
+				</form>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
 <!-- page specific plugin scripts -->
 <script type='text/javascript'>
 	var scripts = [null,'/static/assets/js/jquery.dataTables.min.js','/static/assets/js/jquery.dataTables.bootstrap.min.js','/static/assets/js/dataTables.buttons.min.js','/static/assets/js/buttons.flash.min.js','/static/assets/js/buttons.html5.min.js','/static/assets/js/buttons.print.min.js','/static/assets/js/buttons.colVis.min.js','/static/js/jszip-2.5.0.min.js',/*'/static/js/pdfmake-0.1.36.min.js','/static/js/vfs_fonts--msyh.js',*/'/static/assets/js/dataTables.select.min.js','/static/assets/js/jquery-ui.custom.min.js','/static/assets/js/jquery.ui.touch-punch.min.js','/static/assets/js/chosen.jquery.min.js','/static/assets/js/spinbox.min.js','/static/assets/js/bootstrap-datepicker.min.js','/static/js/bootstrap-datepicker.locale.js','/static/js/jquery.validate.{{.Lang}}.js',null];
@@ -166,7 +220,7 @@
 				},
 				serverSide: true,
 				ajax: {
-					url: '{{urlfor "RolesApi.Get"}}',
+					url: '{{urlfor "RoleAPI.Get"}}',
 					type: 'GET',
 					dataType: 'json',
 					data: function(params) {
@@ -279,7 +333,7 @@
 			$('#dynamic_table tbody').on( 'click', 'a#edit', function () {
 				myRow = myTable.row( $(this).parents('tr') );
 				var data = myRow.data();
-				$('#form-info').attr('action', '{{urlfor "RolesApi.Put"}}/'+data.id);
+				$('#form-info').attr('action', '{{urlfor "RoleAPI.Put"}}/'+data.id);
 				$('#form-info').attr('method', 'PUT');
 				$('input[name="name"]').val(data.name);
 				$('input[name="name"]').attr('value',data.name);
@@ -294,12 +348,55 @@
 				$('#btn-modal').click();
 			});
 
+			// 分配菜单
+			$('#dynamic_table tbody').on( 'click', 'a#assign', function () {
+				myRow = myTable.row( $(this).parents('tr') );
+				var data = myRow.data();
+				$('input[name="role"]').val(data.name);
+				$('input[name="role"]').attr('value',data.name);
+				$('#form-assign').attr('action', '{{urlfor "RoleMenuApi.Post"}}/'+data.id);
+				$('#form-assign').attr('method', 'POST');
+				$('#form-assign')[0].reset();
+				$('#btn-assign').click();
+				$.ajax({
+					url: '{{urlfor "RoleMenuApi.Get"}}/' + data['id'],
+					type: 'GET',
+					success: function (info) {
+						if (info.code) {
+							var obj = $('select[name="relation"]');
+							obj.empty();
+							var menus = info.data;
+							for (var i = 0; i < menus.length; i++) {
+								var row = menus[i];
+								var state = menus[i].state ? '"selected"="selected"' : '' ;
+								if (row.parent_id == 0) {
+									obj.append('<option value="'+row.id+'" '+state+'>'+row.name+'</option>');
+								} else {
+									obj.append('<option value="'+row.id+'" '+state+'>&nbsp;&nbsp;&nbsp;&nbsp;└'+row.name+'</option>');
+								}
+							}
+						} else {
+							// $('#msg-title').html('{{i18n .Lang "operate"}}{{i18n .Lang "failed"}}');
+							// $('#msg-content').html(info.error);
+							// $('#msg-dialog').modal('show');
+							alert(info.error);
+						}
+					},
+					error: function (xhr, msg, e) {
+						console.log(xhr.status);          // 状态码
+						console.log(xhr.readyState);  // 状态
+						console.log(msg);                 // 错误信息
+						alert("" + xhr.status + msg);
+					},
+				})
+			});
+
 			// 数据删除
 			$('#dynamic_table tbody').on( 'click', 'a#del', function () {
 				if (confirm('确定删除吗？')) {
 					var data = myTable.row( $(this).parents('tr') ).data();
 					$.ajax({
-						url: '{{urlfor "RolesApi.Delete"}}/' + data['id'],
+						url: '{{urlfor "RoleAPI.Delete"}}/' + data['id'],
 						type: 'DELETE',
 						success: function (info) {
 							if (info.code) {
@@ -328,7 +425,7 @@
 			////
 			setTimeout(function() {
 				myTable.button(0).action(function (e, dt, button, config) {
-					$('#form-info').attr('action', '{{urlfor "RolesApi.Post"}}');
+					$('#form-info').attr('action', '{{urlfor "RoleAPI.Post"}}');
 					$('#form-info').attr('method', 'POST');
 					$('input[name="name"]').removeAttr('readonly');
 					$('input[name="name"]').removeAttr('value');

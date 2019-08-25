@@ -256,7 +256,7 @@
 				},
 				serverSide: true,
 				ajax: {
-					url: '{{urlfor "UsersApi.Get"}}',
+					url: '{{urlfor "UserAPI.Get"}}',
 					type: 'GET',
 					dataType: 'json',
 					data: function(params) {
@@ -373,7 +373,7 @@
 			$('#dynamic_table tbody').on( 'click', 'a#edit', function () {
 				myRow = myTable.row( $(this).parents('tr') );
 				var data = myRow.data();
-				$('#form-info').attr('action', '{{urlfor "UsersApi.Put"}}/'+data.id);
+				$('#form-info').attr('action', '{{urlfor "UserAPI.Put"}}/'+data.id);
 				$('#form-info').attr('method', 'PUT');
 				$('button[type="reset"]').click();
 				$('input[name="name"]').val(data.name);
@@ -412,7 +412,7 @@
 				if (confirm('确定删除吗？')) {
 					var data = myTable.row( $(this).parents('tr') ).data();
 					$.ajax({
-						url: '{{urlfor "UsersApi.Delete"}}/' + data['id'],
+						url: '{{urlfor "UserAPI.Delete"}}/' + data['id'],
 						type: 'DELETE',
 						success: function (info) {
 							if (info.code) {
@@ -441,7 +441,7 @@
 			////
 			setTimeout(function() {
 				myTable.button(0).action(function (e, dt, button, config) {
-					$('#form-info').attr('action', '{{urlfor "UsersApi.Post"}}');
+					$('#form-info').attr('action', '{{urlfor "UserAPI.Post"}}');
 					$('#form-info').attr('method', 'POST');
 					$('input[name="name"]').removeAttr('readonly');
 					$('input[name="name"]').removeAttr('value');

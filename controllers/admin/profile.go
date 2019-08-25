@@ -4,25 +4,12 @@ import (
 	"github.com/saneryao/bgadmin/controllers"
 )
 
-// profile控制器，继承于controllers下的common控制
-// 主要负责用户信息的查看和修改
+// ProfileController 定义一个用户信息控制器（用于显示用户信息页面等）
 type ProfileController struct {
 	controllers.CommonController
 }
 
-/* 功能：beego定义的接口，执行html请求GET方法，
- *             此处显示用户信息的页面
- * 参数：空
- * 返回值：空
- */
-func (this *ProfileController) Get() {
-	this.SetTpl("admin/profile.tpl")
-}
-
-/* 功能：beego定义的接口，执行html请求GET方法，
- *             此处显示用户信息的页面
- * 参数：空
- * 返回值：空
- */
-func (this *ProfileController) Post() {
+// Get 执行http请求GET方法（beego定义的接口，显示用户信息页面）
+func (api *ProfileController) Get() {
+	api.SetTpl("admin/profile.tpl")
 }

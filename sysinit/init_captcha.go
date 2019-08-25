@@ -6,12 +6,10 @@ import (
 	"github.com/astaxie/beego/utils/captcha"
 )
 
+// VerifyCode 定义全局可用的验证码校验器
 var VerifyCode *captcha.Captcha
 
-/* 功能：初始化验证码设置
- * 参数：空
- * 返回值：空
- */
+// initCaptcha 初始化验证码设置
 func initCaptcha() {
 	var err error
 	VerifyCode = captcha.NewWithFilter("/captcha/", CacheRedis)

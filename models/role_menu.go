@@ -1,9 +1,10 @@
 package models
 
+// RoleMenu 定义角色和菜单映射关系（一个角色可以看到的菜单）
 type RoleMenu struct {
-	Id     int64
-	RoleId int64
-	MenuId int64
+	ID     int64
+	RoleID int64
+	MenuID int64
 }
 
 // func (rm *RoleMenu) TableName() string {

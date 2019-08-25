@@ -6,25 +6,20 @@ import (
 	"github.com/saneryao/bgadmin/validators"
 )
 
-// active控制器，继承于controllers下的common控制
-// 主要负责激活用户页面的显示
+// ActiveController 定义一个激活控制器（用于显示用户激活页面等）
 type ActiveController struct {
 	controllers.CommonController
 }
 
-/* 功能：beego定义的接口，执行html请求GET方法，
- *             此处显示用户激活的页面
- * 参数：空
- * 返回值：空
- */
-func (this *ActiveController) Get() {
+// Get 执行http请求GET方法（beego定义的接口，显示用户激活页面）
+func (api *ActiveController) Get() {
 	var content string
 	var err error
 
 	// 获取ID
 	var id int64
 	if err == nil {
-		id, err = validators.ParseIdFromUrl(&this.Controller, ":id")
+		id, err = validators.ParseIDFromURL(&api.Controller, ":id")
 		if err != nil {
 			content = err.Error()
 		}
@@ -33,7 +28,7 @@ func (this *ActiveController) Get() {
 	// 获取Code
 	var code string
 	if err == nil {
-		code, err = validators.ParseEntryFromUrl(&this.Controller, ":code")
+		code, err = validators.ParseEntryFromURL(&api.Controller, ":code")
 		if err != nil {
 			content = err.Error()
 		}
@@ -41,16 +36,16 @@ func (this *ActiveController) Get() {
 
 	// 激活逻辑（在service进行处理）
 	if err == nil {
-		if err = service.Active(id, code, &this.Controller, this.Lang); err != nil {
+		if err = service.Active(id, code, &api.Controller, api.Lang); err != nil {
 			content = err.Error()
 		}
 	}
 
 	// 设置页面信息
 	if err == nil {
-		content = this.Tr("active") + this.Tr("success") + ", " + this.Tr("redirect_to") + ":<br/>"
-		content += "<a href=\"" + this.URLFor("HomeCtroller.Get") + "\">" + this.Tr("home") + "</a>"
+		content = api.Tr("active") + api.Tr("success") + ", " + api.Tr("redirect_to") + ":<br/>"
+		content += "<a href=\"" + api.URLFor("HomeCtroller.Get") + "\">" + api.Tr("home") + "</a>"
 	}
 
-	this.SetTpl("public/active.tpl")
+	api.SetTpl("public/active.tpl")
 }

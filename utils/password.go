@@ -11,7 +11,7 @@ import (
 
 const letters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-// 生成随机字符串
+// GetRandomBytes 生成随机字符串
 func GetRandomBytes(n int) []byte {
 	result := make([]byte, n)
 	rand.Seed(time.Now().UnixNano())
@@ -20,11 +20,13 @@ func GetRandomBytes(n int) []byte {
 	}
 	return result
 }
+
+// GetRandomString 生成随机字符串
 func GetRandomString(n int) string {
 	return string(GetRandomBytes(n))
 }
 
-// 密码加密
+// EncryptPassword 密码加密，
 // 加密结果 = 1字节版本号 + 1字节盐值长度 + 盐值 + 加密后的数据
 func EncryptPassword(str string) string {
 	lenSalt := 10                       // 盐值长度
@@ -45,7 +47,7 @@ func EncryptPassword(str string) string {
 	return base64.StdEncoding.EncodeToString(dataAll) // Base64编码
 }
 
-// 密码验证
+// VerifyPassword 密码验证
 func VerifyPassword(pwdOrig, pwdEncrypted string) bool {
 	// Base64解码
 	dataOrig := []byte(pwdOrig)

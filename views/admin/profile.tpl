@@ -166,7 +166,7 @@
 				},
 				serverSide: true,
 				ajax: {
-					url: '{{urlfor "RolesApi.Get"}}',
+					url: '{{urlfor "RoleAPI.Get"}}',
 					type: 'GET',
 					dataType: 'json',
 					data: function(params) {
@@ -279,7 +279,7 @@
 			$('#dynamic_table tbody').on( 'click', 'a#edit', function () {
 				myRow = myTable.row( $(this).parents('tr') );
 				var data = myRow.data();
-				$('#form-info').attr('action', '{{urlfor "RolesApi.Put"}}/'+data.id);
+				$('#form-info').attr('action', '{{urlfor "RoleAPI.Put"}}/'+data.id);
 				$('#form-info').attr('method', 'PUT');
 				$('input[name="name"]').val(data.name);
 				$('input[name="name"]').attr('value',data.name);
@@ -305,7 +305,7 @@
 				if (confirm('确定删除吗？')) {
 					var data = myTable.row( $(this).parents('tr') ).data();
 					$.ajax({
-						url: '{{urlfor "RolesApi.Delete"}}/' + data['id'],
+						url: '{{urlfor "RoleAPI.Delete"}}/' + data['id'],
 						type: 'DELETE',
 						success: function (info) {
 							if (info.code) {
@@ -334,7 +334,7 @@
 			////
 			setTimeout(function() {
 				myTable.button(0).action(function (e, dt, button, config) {
-					$('#form-info').attr('action', '{{urlfor "RolesApi.Post"}}');
+					$('#form-info').attr('action', '{{urlfor "RoleAPI.Post"}}');
 					$('#form-info').attr('method', 'POST');
 					$('input[name="name"]').removeAttr('readonly');
 					$('input[name="name"]').removeAttr('value');

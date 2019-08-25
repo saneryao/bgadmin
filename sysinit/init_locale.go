@@ -6,10 +6,7 @@ import (
 	"strings"
 )
 
-/* 功能：初始化语言国际化设置
- * 参数：空
- * 返回值：空
- */
+// initLocale 初始化语言国际化设置
 func initLocale() {
 	// Initialized language type list.
 	langs := strings.Split(beego.AppConfig.String("lang::types"), "|")

@@ -352,7 +352,7 @@
 			// }
 			// setHitsData(data2);
 
-			submit_custom('{{urlfor "StatisticsApi.Get" ":entry" "amounts"}}', 'GET', [], function(data) {
+			submit_custom('{{urlfor "StatisticsAPI.Get" ":entry" "amounts"}}', 'GET', [], function(data) {
 				if (data.code) {
 					$('#user_count').html(data.data.totalUsers);
 					$('#role_count').html(data.data.totalRoles);
@@ -364,7 +364,7 @@
 				}
 			});
 
-			submit_custom('{{urlfor "StatisticsApi.Get" ":entry" "devices"}}', 'GET', [], function(data) {
+			submit_custom('{{urlfor "StatisticsAPI.Get" ":entry" "devices"}}', 'GET', [], function(data) {
 				if (data.code) {
 					$('#cpu_used').html(data.data.cpuUsed);
 					$('#memory_used').html(data.data.memoryUsed);
@@ -374,7 +374,7 @@
 				}
 			});
 
-			submit_custom('{{urlfor "StatisticsApi.Get" ":entry" "distributions"}}', 'GET', [], function(data) {
+			submit_custom('{{urlfor "StatisticsAPI.Get" ":entry" "distributions"}}', 'GET', [], function(data) {
 				if (data.code) {
 					var dataDraw = [];
 					var colorsDraw = ['#68BC31', '#2091CF', '#AF4E96', '#DA5430', '#FEE074', 'blue'];
@@ -390,7 +390,7 @@
 				}
 			});
 
-			submit_custom('{{urlfor "StatisticsApi.Get" ":entry" "hits"}}', 'GET', [], function(data) {
+			submit_custom('{{urlfor "StatisticsAPI.Get" ":entry" "hits"}}', 'GET', [], function(data) {
 				if (data.code) {
 					var dataDraw = [];
 					var dateCurrent = new Date();

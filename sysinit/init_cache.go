@@ -4,16 +4,13 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/cache"
-	_ "github.com/astaxie/beego/cache/redis"
 	"github.com/astaxie/beego/logs"
 )
 
+// CacheRedis 定义全局可用缓存（使用redis缓存数据）
 var CacheRedis cache.Cache
 
-/* 功能：初始化缓存（缓存数据通过redis进行）
- * 参数：空
- * 返回值：空
- */
+// initCache 初始化缓存（连接redis）
 func initCache() {
 	host := beego.AppConfig.String("redis::host")
 	port, _ := beego.AppConfig.Int("redis::port")

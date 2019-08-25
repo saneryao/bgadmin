@@ -8,10 +8,7 @@ import (
 	"time"
 )
 
-/* 功能：查询统计量（用户数、角色数、资源数、文章数、评论数）
- * 参数：data 表示查询到的数据集，other表示其他的额外参数
- * 返回值：err表示查询失败时的错误信息
- */
+// GetAmounts 查询统计量（用户数、角色数、资源数、文章数、评论数）
 func GetAmounts(data, others map[string]interface{}) (err error) {
 	// 定义变量
 	var totalUsers int64
@@ -62,10 +59,7 @@ func GetAmounts(data, others map[string]interface{}) (err error) {
 	return
 }
 
-/* 功能：查询设备信息（CPU使用率、内存使用率、硬盘使用率）
- * 参数：data 表示查询到的数据集，other表示其他的额外参数
- * 返回值：err表示查询失败时的错误信息
- */
+// GetDevices 查询设备信息（CPU使用率、内存使用率、硬盘使用率）
 func GetDevices(data, others map[string]interface{}) (err error) {
 	// 定义变量
 	var cpuUsed int
@@ -90,10 +84,7 @@ func GetDevices(data, others map[string]interface{}) (err error) {
 	return
 }
 
-/* 功能：查询文章分布情况（各顶级分类下的文章总数）
- * 参数：data 表示查询到的数据集，other表示其他的额外参数
- * 返回值：err表示查询失败时的错误信息
- */
+// GetDistributions 查询文章分布情况（各顶级分类下的文章总数）
 func GetDistributions(data, others map[string]interface{}) (err error) {
 	// 定义变量
 	var totalFavorites int64
@@ -125,10 +116,7 @@ func GetDistributions(data, others map[string]interface{}) (err error) {
 	return
 }
 
-/* 功能：查询近30天的访问量
- * 参数：data 表示查询到的数据集，other表示其他的额外参数
- * 返回值：err表示查询失败时的错误信息
- */
+// GetHits 查询近30天的访问量
 func GetHits(data, others map[string]interface{}) (err error) {
 	// 查询访问量
 	if data != nil {

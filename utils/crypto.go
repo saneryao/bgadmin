@@ -9,10 +9,9 @@ import (
 	"errors"
 )
 
-/* 功能：默认私钥解密
- * 参数：strEncrypted表示已加密过的数据转换成的base64编码字符串
- * 返回值：original表示解密成功后的原始明文数据，err表示解密失败时的错误信息
- */
+// RsaDecryptByDefaultPrikey 使用默认的私钥进行RSA解密，
+// 参数strEncrypted表示已加密过的数据转换成的base64编码字符串，
+// 返回值original表示解密成功后的原始明文数据，返回值err表示解密失败时的错误信息
 func RsaDecryptByDefaultPrikey(strEncrypted string) (original []byte, err error) {
 	var bytesEncrypted []byte
 	bytesEncrypted, err = base64.StdEncoding.DecodeString(strEncrypted)
@@ -24,14 +23,13 @@ func RsaDecryptByDefaultPrikey(strEncrypted string) (original []byte, err error)
 	return
 }
 
-/* 功能：默认私钥解密
- * 参数：encrypted表示已加密过的数据，priKey表示私钥数据
- * 返回值：original表示解密成功后的原始明文数据，err表示解密失败时的错误信息
- */
+// RsaDecryptByPrikey RSA私钥解密，
+// 参数encrypted表示已加密过的数据，参数priKey表示私钥数据，
+// 返回值original表示解密成功后的原始明文数据，返回值oerr表示解密失败时的错误信息
 func RsaDecryptByPrikey(encrypted, priKey []byte) (original []byte, err error) {
 	block, _ := pem.Decode(priKey) //将密钥解析成实例
 	if block == nil {
-		err = errors.New("private key error!")
+		err = errors.New("private key error")
 		return
 	}
 

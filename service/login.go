@@ -11,13 +11,10 @@ import (
 	"github.com/saneryao/bgadmin/validators"
 )
 
-/* 功能：登录逻辑（判断用户名、密码和验证码）
- * 参数：params登录Form表单数据，ctrl控制器
- * 返回值：err错误值（登录成功时值为nil，登录失败时给出错误信息）
- */
+// Login 用户登录的处理逻辑（验证用户名、密码和验证码）
 func Login(params *validators.LoginParams, ctrl *beego.Controller, lang string) (err error) {
 	// 校验验证码
-	if !sysinit.VerifyCode.Verify(params.IdCaptcha, params.Captcha) {
+	if !sysinit.VerifyCode.Verify(params.IDCaptcha, params.Captcha) {
 		err = errors.New(i18n.Tr(lang, "captcha_error"))
 		return
 	}

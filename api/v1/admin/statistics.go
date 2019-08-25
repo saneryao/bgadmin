@@ -7,41 +7,37 @@ import (
 	"strings"
 )
 
-// 定义一个数量统计API（用于获取系统中统计的一些数量）
-type StatisticsApi struct {
-	BaseApi
+// StatisticsAPI 定义一个数量统计API（用于获取系统中统计的一些数量）
+type StatisticsAPI struct {
+	baseAPI
 }
 
-/* 功能：beego定义的接口，执行html请求GET方法，
- *             此处查询统计的一些数据
- * 参数：空
- * 返回值：空
- */
-func (this *StatisticsApi) Get() {
+// Get 执行http请求GET方法（beego定义的接口，查询统计的一些数据）
+func (api *StatisticsAPI) Get() {
 	// 包装并处理返回结果
 	data := make(map[string]interface{})
 	others := make(map[string]interface{})
 	defer func() {
-		this.PackResultData(data, others)
+		api.PackResultData(data, others)
 	}()
 
 	// 从URL获取Entry
 	var strEntry string
-	if strEntry, this.Error = validators.ParseEntryFromUrl(&this.Controller, ":entry"); this.Error != nil {
+	if strEntry, api.Error = validators.ParseEntryFromURL(&api.Controller, ":entry"); api.Error != nil {
 		return
 	}
 
 	// 获取数据
 	switch {
 	case strings.EqualFold(strEntry, "amounts"):
-		this.Error = service.GetAmounts(data, nil)
+		api.Error = service.GetAmounts(data, nil)
 	case strings.EqualFold(strEntry, "devices"):
-		this.Error = service.GetDevices(data, nil)
+		api.Error = service.GetDevices(data, nil)
 	case strings.EqualFold(strEntry, "distributions"):
-		this.Error = service.GetDistributions(data, others)
+		api.Error = service.GetDistributions(data, others)
 	case strings.EqualFold(strEntry, "hits"):
-		this.Error = service.GetHits(data, nil)
+		api.Error = service.GetHits(data, nil)
 	default:
-		this.Error = errors.New(this.Tr("entry_not_found") + strEntry)
+		api.Error = errors.New(api.Tr("entry_not_found") + strEntry)
 	}
 }

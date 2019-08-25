@@ -9,15 +9,12 @@ import (
 	"time"
 )
 
-/* 功能：激活逻辑（通过用户ID、激活码进行验证）
- * 参数：params登录Form表单数据，ctrl控制器
- * 返回值：err错误值（登录成功时值为nil，登录失败时给出错误信息）
- */
+// Active 用户激活的处理逻辑（通过用户ID、激活码进行验证）
 func Active(id int64, code string, ctrl *beego.Controller, lang string) (err error) {
 	// 获取已存储的激活码
 	db := orm.NewOrm()
-	ac := models.Code{UserId: id}
-	if err = db.Read(ac, "UserId"); err != nil {
+	ac := models.Code{UserID: id}
+	if err = db.Read(ac, "UserID"); err != nil {
 		return
 	}
 

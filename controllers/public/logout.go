@@ -5,19 +5,14 @@ import (
 	"github.com/saneryao/bgadmin/service"
 )
 
-// logout控制器，继承于controllers下的common控制
-// 主要负责用户注销操作
+// LogoutController 注销控制器（用于用户注销操作）
 type LogoutController struct {
 	controllers.CommonController
 }
 
-/* 功能：beego定义的接口，执行html请求GET方法，
- *             此处进行用户注销操作（注销后进行页面跳转）
- * 参数：空
- * 返回值：空
- */
-func (this *LogoutController) Get() {
-	service.SetLogoutInfo(&this.Controller)
-	this.Redirect(this.URLFor("LoginController.Get"), 302)
-	this.StopRun()
+// Get 执行http请求GET方法（beego定义的接口，处理用户注销操作及注销后页面跳转）
+func (api *LogoutController) Get() {
+	service.SetLogoutInfo(&api.Controller)
+	api.Redirect(api.URLFor("LoginController.Get"), 302)
+	api.StopRun()
 }

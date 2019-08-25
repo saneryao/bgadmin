@@ -5,17 +5,19 @@ import (
 	"github.com/saneryao/bgadmin/api/v1"
 )
 
-type ResetPwdApi struct {
-	v1.CommonApi
+// ResetPwdAPI 定义一个用户重置密码API（用于用户重置密码等操作）
+type ResetPwdAPI struct {
+	v1.CommonAPI
 }
 
-func (this *ResetPwdApi) Post() {
+// Post 执行http请求POST方法（beego定义的接口，处理用户重置密码操作）
+func (api *ResetPwdAPI) Post() {
 	logs.Info("!!!!!!!!!!POST!!!!!!!!!!")
 	// json := make(map[string]interface{})
 	// json["code"] = true
-	// json["msg"] = this.Tr("redirecting")
-	// json['url'] = this.
+	// json["msg"] = api.Tr("redirecting")
+	// json['url'] = api.
 
-	this.Data["json"] = map[string]interface{}{"code": true, "msg": this.Tr("redirecting"), "url": this.URLFor("LoginController.Get")}
-	this.ServeJSON()
+	api.Data["json"] = map[string]interface{}{"code": true, "msg": api.Tr("redirecting"), "url": api.URLFor("LoginController.Get")}
+	api.ServeJSON()
 }

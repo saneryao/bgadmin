@@ -6,8 +6,9 @@ package models
 // 	"strings"
 // )
 
+// Profile 定义个人信息（从用户信息拆分而来，保存个人的详细信息）
 type Profile struct {
-	Id      int64  `form:"id" json:"id"`
+	ID      int64  `form:"id" json:"id"`
 	Sex     int    `form:"sex" json:"sex" valid:"Range(0,2)"`
 	Nick    string `form:"nick"  json:"nick" valid:"MaxSize(32);"`
 	Email   string `form:"email"  json:"email" valid:"Email; MaxSize(128)"`

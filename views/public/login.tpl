@@ -25,7 +25,7 @@
 
                 <div class="space-6"></div>
 
-                <form id="form-login" action="{{urlfor "LoginApi.Post"}}" method="POST">
+                <form id="form-login" action="{{urlfor "LoginAPI.Post"}}" method="POST">
                   <fieldset>
                     <label class="block clearfix">
                       <span class="block input-icon">
@@ -113,7 +113,7 @@
                   {{i18n .Lang "via"}}{{i18n .Lang "email"}}{{i18n .Lang "find_pwd"}}:
                 </p>
 
-                <form id="form-forget" action="{{urlfor "FindPwdApi.Post"}}" method="POST">
+                <form id="form-forget" action="{{urlfor "FindPwdAPI.Post"}}" method="POST">
                   <fieldset>
                     <label class="block clearfix">
                       <span class="block input-icon">
@@ -167,7 +167,7 @@
                 <div class="space-6"></div>
                 <p> {{i18n .Lang "via"}}{{i18n .Lang "email"}}{{i18n .Lang "register"}}{{i18n .Lang "user"}}: </p>
 
-                <form id="form-register" action="{{urlfor "RegisterApi.Post"}}" method="POST" target="nm_iframe">
+                <form id="form-register" action="{{urlfor "RegisterAPI.Post"}}" method="POST" target="nm_iframe">
                   <fieldset>
                     <label class="block clearfix">
                       <span class="block input-icon">

@@ -6,29 +6,31 @@ import (
 	"github.com/saneryao/bgadmin/validators"
 )
 
-type RegisterApi struct {
-	v1.CommonApi
+// RegisterAPI 定义一个用户注册API（用于用户注册等操作）
+type RegisterAPI struct {
+	v1.CommonAPI
 }
 
-func (this *RegisterApi) Post() {
+// Post 执行http请求POST方法（beego定义的接口，处理用户注册操作）
+func (api *RegisterAPI) Post() {
 	// 包装并处理返回结果
 	others := make(map[string]interface{})
 	defer func() {
-		this.PackResultData(nil, others)
+		api.PackResultData(nil, others)
 	}()
 
 	// 获取并校验输入信息
 	params := validators.RegisterParams{}
-	if _, this.Error = validators.ParseRegisterParams(&params, &this.Controller); this.Error != nil {
+	if _, api.Error = validators.ParseRegisterParams(&params, &api.Controller); api.Error != nil {
 		return
 	}
 
 	// 注册逻辑（在service层进行处理）
-	if this.Error = service.Register(&params, &this.Controller, this.Lang); this.Error != nil {
+	if api.Error = service.Register(&params, &api.Controller, api.Lang); api.Error != nil {
 		return
 	}
 
 	// 返回数据给客户端
-	others["url"] = this.URLFor("HomeController.Get")
+	others["url"] = api.URLFor("HomeController.Get")
 	return
 }

@@ -5,15 +5,12 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/session"
-	_ "github.com/astaxie/beego/session/redis"
 )
 
+// SessionMgr 定义全局可用的session管理器
 var SessionMgr *session.Manager
 
-/* 功能：初始化session设置
- * 参数：空
- * 返回值：空
- */
+// initSession 初始化session设置
 func initSession() {
 	host := beego.AppConfig.String("redis::host")
 	port, _ := beego.AppConfig.Int("redis::port")

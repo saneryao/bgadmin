@@ -8,11 +8,11 @@ import (
 	"github.com/saneryao/bgadmin/utils"
 )
 
-// Json数据直接转换成结构体（首字母必须大写）
+// LoginParams 登录信息等参数
 type LoginParams struct {
 	Username  string `form:"username" json:"username" valid:"Required;MinSize(4);MaxSize(32);AlphaDash"`
 	Password  string `form:"password" json:"password" valid:"Required;MinSize(4);MaxSize(32);"`
-	IdCaptcha string `form:"captcha_id" json:"captcha_id" valid:"Required;MinSize(8);MaxSize(32);AlphaNumeric"`
+	IDCaptcha string `form:"captcha_id" json:"captcha_id" valid:"Required;MinSize(8);MaxSize(32);AlphaNumeric"`
 	Captcha   string `form:"captcha" json:"captcha" valid:"Required;Length(4);Numeric"`
 }
 
@@ -21,10 +21,7 @@ type LoginParams struct {
 // func (this *LoginParams) Valid(valid *validation.Validation) {
 // }
 
-/* 功能：Form表单数据转化成结构体，并校验数据有效性
- * 参数：loginInfo是转换后的结果（结构体），ctrl是控制器
- * 返回值：result为true表示转换成功，err不为nil表示转换失败
- */
+// ParseLoginParams 解析表单数据中的登录信息，并校验数据有效性
 func ParseLoginParams(paramsInfo *LoginParams, ctrl *beego.Controller) (result bool, err error) {
 	// 格式转换
 	if err = ctrl.ParseForm(paramsInfo); err != nil {

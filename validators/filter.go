@@ -7,6 +7,7 @@ import (
 	"github.com/astaxie/beego/validation"
 )
 
+// FilterParams 数据分页信息等参数
 type FilterParams struct {
 	Draw         int    `form:"draw" valid:"Min(0)"`
 	Limit        int    `form:"limit" valid:"Range(1, 1000)"`
@@ -24,10 +25,7 @@ type FilterParams struct {
 // func (this *FilterParams) Valid(valid *validation.Validation) {
 // }
 
-/* 功能：Form表单数据转化成结构体，并校验数据有效性
- * 参数：paramsTable是转换后的结果（结构体），ctrl是控制器
- * 返回值：result为true表示转换成功，err不为nil表示转换失败
- */
+// ParseFilterParams 转换表单数据为结构体，并校验数据有效性
 func ParseFilterParams(paramsInfo *FilterParams, ctrl *beego.Controller) (result bool, err error) {
 	// 格式转换
 	if err = ctrl.ParseForm(paramsInfo); err != nil {

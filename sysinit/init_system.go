@@ -1,14 +1,18 @@
 package sysinit
 
-/* 功能：后台系统的初始化配置（此接口在main中的router后调用）
- * 参数：空
- * 返回值：空
- */
+import (
+	_ "github.com/astaxie/beego/cache/redis"
+	_ "github.com/astaxie/beego/session/redis"
+	_ "github.com/go-sql-driver/mysql"
+)
+
+// 后台系统的配置初始化（此接口在main中的router后调用）
 func init() {
 	initLog()
 	initCache()
 	initCaptcha()
 	initLocale()
+	initSMTP()
 	initDb()
-	initEmail()
+	initSession()
 }
