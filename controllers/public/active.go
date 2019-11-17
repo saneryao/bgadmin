@@ -11,7 +11,7 @@ type ActiveController struct {
 	controllers.CommonController
 }
 
-// Get 执行http请求GET方法（beego定义的接口，显示用户激活页面）
+// Get 执行http请求GET方法（显示用户激活页面）
 func (api *ActiveController) Get() {
 	var content string
 	var err error

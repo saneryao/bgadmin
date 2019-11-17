@@ -24,7 +24,7 @@ func init() {
 	beego.Router("/api/v1/role/?:id:int", &admapi.RoleAPI{}, "GET:Get;POST:Post;PUT:Put;PATCH:Patch;DELETE:Delete")
 	beego.Router("/api/v1/menu/?:id:int", &admapi.MenuAPI{}, "GET:Get;POST:Post;PUT:Put;PATCH:Patch;DELETE:Delete")
 	beego.Router("/api/v1/link/?:id:int", &admapi.LinkAPI{}, "GET:Get;POST:Post;PUT:Put;PATCH:Patch;DELETE:Delete")
-	beego.Router("/api/v1/user_role/?:id:int", &admapi.UserRoleAPI{}, "GET:Get;POST:Post")
-	beego.Router("/api/v1/role_power/?:id:int", &admapi.RolePowerAPI{}, "GET:Get;POST:Post")
+	beego.Router("/api/v1/user_role/?:id:int", &admapi.UserRoleAPI{}, "GET:Get;POST:Post;DELETE:Delete")
+	beego.Router("/api/v1/role_power/?:id:int", &admapi.RolePowerAPI{}, "GET:Get;POST:Post;DELETE:Delete")
 	beego.Router("/api/v1/statistics/:entry([a-zA-Z]+)", &admapi.StatisticsAPI{}, "GET:Get")
 }

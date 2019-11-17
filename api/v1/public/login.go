@@ -11,7 +11,7 @@ type LoginAPI struct {
 	v1.CommonAPI
 }
 
-// Post 执行http请求POST方法（beego定义的接口，处理用户登录操作）
+// Post 执行http请求POST方法（处理用户登录操作）
 func (api *LoginAPI) Post() {
 	// 包装并处理返回结果
 	others := make(map[string]interface{})

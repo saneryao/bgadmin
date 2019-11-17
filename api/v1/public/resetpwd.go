@@ -10,7 +10,7 @@ type ResetPwdAPI struct {
 	v1.CommonAPI
 }
 
-// Post 执行http请求POST方法（beego定义的接口，处理用户重置密码操作）
+// Post 执行http请求POST方法（处理用户重置密码操作）
 func (api *ResetPwdAPI) Post() {
 	logs.Info("!!!!!!!!!!POST!!!!!!!!!!")
 	// json := make(map[string]interface{})

@@ -9,6 +9,7 @@ import (
 	"github.com/saneryao/bgadmin/sysinit"
 	"github.com/saneryao/bgadmin/utils"
 	"github.com/saneryao/bgadmin/validators"
+	"os"
 )
 
 // Login 用户登录的处理逻辑（验证用户名、密码和验证码）
@@ -24,6 +25,16 @@ func Login(params *validators.LoginParams, ctrl *beego.Controller, lang string) 
 	db := orm.NewOrm()
 	user.Name = params.Username
 	err = db.Read(&user, "Name")
+	if err != nil {
+		if err == os.ErrNotExist {
+			err = errors.New(i18n.Tr(lang, "uname_or_pwd_error"))
+		}
+		return
+	}
+	if user.State != 1 {
+		err = errors.New(i18n.Tr(lang, "user_is_disabled"))
+		return
+	}
 	if err != nil || !utils.VerifyPassword(params.Password, user.Pwd) {
 		err = errors.New(i18n.Tr(lang, "uname_or_pwd_error"))
 		return

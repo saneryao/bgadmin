@@ -15,7 +15,7 @@ type MenuAPI struct {
 	baseAPI
 }
 
-// Get 执行http请求GET方法（beego定义的接口，查询菜单列表）
+// Get 执行http请求GET方法（查询菜单列表）
 func (api *MenuAPI) Get() {
 	// 定义变量
 	params := validators.FilterParams{}
@@ -64,7 +64,7 @@ func (api *MenuAPI) Get() {
 	}
 }
 
-// Post 执行http请求POST方法（beego定义的接口，新建菜单）
+// Post 执行http请求POST方法（新建菜单）
 func (api *MenuAPI) Post() {
 	// 包装并处理返回结果
 	menu := models.Menu{}
@@ -95,7 +95,7 @@ func (api *MenuAPI) Post() {
 	_, api.Error = db.Insert(&menu)
 }
 
-// Put 执行http请求PUT方法（beego定义的接口，更新某个菜单的所有信息）
+// Put 执行http请求PUT方法（更新某个菜单的所有信息）
 func (api *MenuAPI) Put() {
 	// 包装并处理返回结果
 	menu := models.Menu{}
@@ -121,8 +121,8 @@ func (api *MenuAPI) Put() {
 
 	// 查询数据
 	db := orm.NewOrm()
-	// menuRead := models.Menu{Id: nID}
-	// if api.Error = db.Read(&menuRead, "Id"); api.Error != nil {
+	// menuRead := models.Menu{ID: nID}
+	// if api.Error = db.Read(&menuRead, "ID"); api.Error != nil {
 	// 	return
 	// }
 	// if menu.Name != "" && !strings.EqualFold(menuRead.Name, menu.Name) {
@@ -131,11 +131,11 @@ func (api *MenuAPI) Put() {
 	// }
 
 	// 更新数据
-	menu.ID = nID
+	menu.ID = int(nID)
 	_, api.Error = db.Update(&menu)
 }
 
-// Patch 执行http请求PATCH方法（beego定义的接口，更新某个菜单的一部分信息）
+// Patch 执行http请求PATCH方法（更新某个菜单的一部分信息）
 func (api *MenuAPI) Patch() {
 	// 包装并处理返回结果
 	menuRead := models.Menu{}
@@ -153,7 +153,7 @@ func (api *MenuAPI) Patch() {
 	if nID, api.Error = validators.ParseIDFromURL(&api.Controller, ":id"); api.Error != nil {
 		return
 	}
-	menuRead.ID = nID
+	menuRead.ID = int(nID)
 
 	// 获取并校验输入信息
 	menu := models.Menu{}
@@ -164,7 +164,7 @@ func (api *MenuAPI) Patch() {
 	// 查询数据
 	db := orm.NewOrm()
 	// qs := db.QueryTable(new(models.Menu))
-	// if api.Error = qs.Filter("Id__exact", nID).One(&menuRead); api.Error != nil {
+	// if api.Error = qs.Filter("ID__exact", nID).One(&menuRead); api.Error != nil {
 	// 	return
 	// }
 	// if menu.Name != "" && !strings.EqualFold(menuRead.Name, menu.Name) {
@@ -181,7 +181,7 @@ func (api *MenuAPI) Patch() {
 	_, api.Error = db.Update(&menuRead)
 }
 
-// Delete 执行http请求DELETE方法（beego定义的接口，删除某个菜单）
+// Delete 执行http请求DELETE方法（删除某个菜单）
 func (api *MenuAPI) Delete() {
 	// 包装并处理返回结果
 	defer func() {
@@ -201,12 +201,12 @@ func (api *MenuAPI) Delete() {
 
 	// 查询数据
 	db := orm.NewOrm()
-	menuRead := models.Menu{ParentID: nID}
+	menuRead := models.Menu{ParentID: int(nID)}
 	if api.Error = db.Read(&menuRead, "ParentId"); api.Error == nil {
 		api.Error = errors.New(api.Tr("contain_submenus"))
 		return
 	}
 
 	// 删除数据
-	_, api.Error = db.Delete(&models.Menu{ID: nID})
+	_, api.Error = db.Delete(&models.Menu{ID: int(nID)})
 }

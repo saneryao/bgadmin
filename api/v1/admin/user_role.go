@@ -1,6 +1,8 @@
 package admin
 
 import (
+	"errors"
+	"fmt"
 	"github.com/astaxie/beego/orm"
 	"github.com/saneryao/bgadmin/models"
 	"github.com/saneryao/bgadmin/validators"
@@ -11,14 +13,19 @@ type UserRoleAPI struct {
 	baseAPI
 }
 
-// Get 执行http请求GET方法（beego定义的接口，查询用户和角色映射关系列表）
+// Get 执行http请求GET方法（查询用户和角色映射关系列表）
 func (api *UserRoleAPI) Get() {
 	// 定义变量
-	var roles []*models.Role
+	var totalRoles int64
+	var user models.User
 
 	// 包装并处理返回结果
 	defer func() {
-		api.PackResultData(roles, nil)
+		others := make(map[string]interface{})
+		if api.Error == nil {
+			others["totalRoles"] = totalRoles
+		}
+		api.PackResultData(user, others)
 	}()
 
 	// 从URL获取并校验ID
@@ -26,42 +33,82 @@ func (api *UserRoleAPI) Get() {
 	if nID, api.Error = validators.ParseIDFromURL(&api.Controller, ":id"); api.Error != nil {
 		return
 	}
+	user.ID = nID
 
-	// 查询菜单列表
+	// 查询数据
 	db := orm.NewOrm()
-	qs := db.QueryTable(new(models.Role))
-	qs = qs.Filter("state__exact", 1) // 只查询状态为1的角色
-	qs = qs.OrderBy("id")
-	_, api.Error = qs.All(&roles)
+	if totalRoles, api.Error = db.LoadRelated(&user, "Roles"); api.Error != nil {
+		return
+	}
+}
+
+// Post 执行http请求POST方法（新建用户角色）
+func (api *UserRoleAPI) Post() {
+	// 包装并处理返回结果
+	userRole := models.UserRole{}
+	defer func() {
+		var others map[string]interface{}
+		if api.Error == nil {
+			others = make(map[string]interface{})
+			others["msg"] = api.Tr("save") + api.Tr("success")
+		}
+		api.PackResultData(userRole, others)
+	}()
+
+	// 获取并校验输入信息
+	var userID int64
+	var roleID int32
+	if _, api.Error = validators.ParseUserRoleInfo(&userID, &roleID, &api.Controller); api.Error != nil {
+		return
+	}
+	userRole.User = &models.User{ID: userID}
+	userRole.Role = &models.Role{ID: int(roleID)}
+
+	// 查询数据
+	db := orm.NewOrm()
+	if api.Error = db.Read(&userRole, "user_id", "role_id"); api.Error == nil {
+		roleInfo := fmt.Sprintf("[%d-%d]", userID, roleID)
+		api.Error = errors.New(api.Tr("user_role") + roleInfo + api.Tr("is_already_exists"))
+		return
+	}
+	if api.Error == orm.ErrNoRows {
+		api.Error = nil
+	}
 	if api.Error != nil {
 		return
 	}
 
-	// 查询映射关系
-	mapping := make(map[int64]bool)
-	var relation []*models.UserRole
-	qs2 := db.QueryTable(new(models.UserRole))
-	qs2 = qs2.Filter("user_id__exact", nID) // 只查询用户nId的映射关系
-	var count int64
-	count, api.Error = qs2.Count()
-	if api.Error != nil {
+	// 插入数据
+	_, api.Error = db.Insert(&userRole)
+}
+
+// Delete 执行http请求DELETE方法（删除某个用户的角色）
+func (api *UserRoleAPI) Delete() {
+	// 包装并处理返回结果
+	defer func() {
+		var others map[string]interface{}
+		if api.Error == nil {
+			others = make(map[string]interface{})
+			others["msg"] = api.Tr("del") + api.Tr("success")
+		}
+		api.PackResultData(nil, others)
+	}()
+
+	var userID int64
+	var roleID int32
+	if _, api.Error = validators.ParseUserRoleInfo(&userID, &roleID, &api.Controller); api.Error != nil {
 		return
 	}
-	if count > 0 {
-		_, api.Error = qs2.All(&relation)
-		if api.Error != nil {
-			return
-		}
-		mapping := make(map[int64]bool)
-		for _, v := range relation {
-			mapping[v.RoleID] = true
-		}
+	userRole := models.UserRole{}
+	userRole.User = &models.User{ID: userID}
+	userRole.Role = &models.Role{ID: int(roleID)}
+
+	// 查询数据
+	db := orm.NewOrm()
+	if api.Error = db.Read(&userRole, "user_id", "role_id"); api.Error != nil {
+		return
 	}
 
-	// 遍历菜单，将不存在映射关系的菜单状态置为0（状态为1表示存在映射关系）
-	for k, v := range roles {
-		if _, exists := mapping[v.ID]; !exists {
-			roles[k].State = 0
-		}
-	}
+	// 删除数据
+	_, api.Error = db.Delete(&userRole)
 }

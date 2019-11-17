@@ -16,7 +16,7 @@ type CommonAPI struct {
 	Error    error
 }
 
-// Prepare 在执行http请求Method方法前执行（beego定义的接口）
+// Prepare 在执行http请求Method方法前执行（API接口）
 // 此处进行国际化语言设置，并获取控制器信息给子控制器使用
 func (api *CommonAPI) Prepare() {
 	_, api.Lang = utils.SetLangVer(&api.Controller)

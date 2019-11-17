@@ -9,7 +9,7 @@ type ProfileController struct {
 	controllers.CommonController
 }
 
-// Get 执行http请求GET方法（beego定义的接口，显示用户信息页面）
+// Get 执行http请求GET方法（显示用户信息页面）
 func (api *ProfileController) Get() {
 	api.SetTpl("admin/profile.tpl")
 }

@@ -7,38 +7,17 @@ import (
 
 // SortMenusByRelation 通过菜单的继承关系把菜单重新进行排序以便页面显示
 func SortMenusByRelation(menus []*models.Menu) (sorted []*models.Menu) {
-	sorted = make([]*models.Menu, 0)
-	for k1, v1 := range menus { // 遍历菜单列表
-		if menus[k1].ParentID == 0 { // 判断是否是一级菜单
-			sorted = append(sorted, v1)
-			// logs.Debug("**********%#v", v1)
-		} else { // 子菜单
-			findChildren := false
-			indexPos := 0
-			for k2, v2 := range sorted {
-				if findChildren {
-					if v2.ParentID == v1.ParentID {
-						continue
-					}
-					if v2.ID != v1.ParentID {
-						indexPos = k2
-						break
-					}
-				} else {
-					if v2.ID == v1.ParentID {
-						findChildren = true
-					}
-				}
-			}
-			// logs.Debug("++++++++++%#v", indexPos)
-			if indexPos == 0 {
-				sorted = append(sorted, v1)
-			} else {
-				tail := append([]*models.Menu{}, sorted[indexPos:]...)
-				sorted = append(sorted[0:indexPos], v1)
-				sorted = append(sorted, tail...)
-			}
-			// logs.Debug("**********%#v", v1)
+	sorted = findMenusByParentID(menus, 0)
+	if sorted == nil {
+		sorted = make([]*models.Menu, 0)
+	}
+	return
+}
+func findMenusByParentID(menus []*models.Menu, parentID int) (sorted []*models.Menu) {
+	for _, menu := range menus {
+		if menu.ParentID == parentID {
+			sorted = append(sorted, menu)
+			sorted = append(sorted, findMenusByParentID(menus, menu.ID)...)
 		}
 	}
 	return
@@ -51,12 +30,12 @@ func HideDisabledMenus(all []*models.Menu) (visible []*models.Menu) {
 
 	// 菜单的父菜单和状态信息，方便建立map进行快速查询
 	type menuParentState struct {
-		ParentID int64
+		ParentID int
 		State    int
 	}
 
 	// 建立map方便快速查询
-	mapping := make(map[int64]menuParentState)
+	mapping := make(map[int]menuParentState)
 	for _, v := range all {
 		mapping[v.ID] = menuParentState{ParentID: v.ParentID, State: v.State}
 	}

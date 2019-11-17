@@ -12,7 +12,7 @@ type StatisticsAPI struct {
 	baseAPI
 }
 
-// Get 执行http请求GET方法（beego定义的接口，查询统计的一些数据）
+// Get 执行http请求GET方法（查询统计的一些数据）
 func (api *StatisticsAPI) Get() {
 	// 包装并处理返回结果
 	data := make(map[string]interface{})

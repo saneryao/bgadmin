@@ -10,7 +10,6 @@ import (
 	"github.com/saneryao/bgadmin/utils"
 	"github.com/saneryao/bgadmin/validators"
 	"strings"
-	"time"
 )
 
 // Register 用户注册的处理逻辑（判断邮箱、用户名、密码和验证码）
@@ -53,7 +52,7 @@ func Register(params *validators.RegisterParams, ctrl *beego.Controller, lang st
 	}
 
 	// 生成并保存激活码
-	code := models.Code{UserID: user.ID, Code: utils.GetRandomString(64), CreateTime: time.Now().Unix()}
+	code := models.Code{UserID: user.ID, Code: utils.GetRandomString(64)}
 	if _, err = db.Insert(&code); err != nil {
 		return
 	}

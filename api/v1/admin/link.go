@@ -14,7 +14,7 @@ type LinkAPI struct {
 	baseAPI
 }
 
-// Get 执行http请求GET方法（beego定义的接口，查询链接列表）
+// Get 执行http请求GET方法（查询链接列表）
 func (api *LinkAPI) Get() {
 	// 定义变量
 	params := validators.FilterParams{}
@@ -62,7 +62,7 @@ func (api *LinkAPI) Get() {
 	}
 }
 
-// Post 执行http请求POST方法（beego定义的接口，新建链接）
+// Post 执行http请求POST方法（新建链接）
 func (api *LinkAPI) Post() {
 	// 包装并处理返回结果
 	link := models.Link{}
@@ -93,7 +93,7 @@ func (api *LinkAPI) Post() {
 	_, api.Error = db.Insert(&link)
 }
 
-// Put 执行htttp请求PUT方法（beego定义的接口，更新某个链接的所有信息）
+// Put 执行htttp请求PUT方法（更新某个链接的所有信息）
 func (api *LinkAPI) Put() {
 	// 包装并处理返回结果
 	link := models.Link{}
@@ -119,8 +119,8 @@ func (api *LinkAPI) Put() {
 
 	// 查询数据
 	db := orm.NewOrm()
-	// linkRead := models.Link{Id: nID}
-	// if api.Error = db.Read(&linkRead, "Id"); api.Error != nil {
+	// linkRead := models.Link{ID: nID}
+	// if api.Error = db.Read(&linkRead, "ID"); api.Error != nil {
 	// 	return
 	// }
 	// if link.Name != "" && !strings.EqualFold(linkRead.Name, link.Name) {
@@ -129,11 +129,11 @@ func (api *LinkAPI) Put() {
 	// }
 
 	// 更新数据
-	link.ID = nID
+	link.ID = int(nID)
 	_, api.Error = db.Update(&link)
 }
 
-// Patch 执行http请求PATCH方法（beego定义的接口，更新某个链接的一部分信息）
+// Patch 执行http请求PATCH方法（更新某个链接的一部分信息）
 func (api *LinkAPI) Patch() {
 	// 包装并处理返回结果
 	linkRead := models.Link{}
@@ -151,7 +151,7 @@ func (api *LinkAPI) Patch() {
 	if nID, api.Error = validators.ParseIDFromURL(&api.Controller, ":id"); api.Error != nil {
 		return
 	}
-	linkRead.ID = nID
+	linkRead.ID = int(nID)
 
 	// 获取并校验输入信息
 	link := models.Link{}
@@ -162,7 +162,7 @@ func (api *LinkAPI) Patch() {
 	// 查询数据
 	db := orm.NewOrm()
 	// qs := db.QueryTable(new(models.Link))
-	// if api.Error = qs.Filter("Id__exact", nID).One(&linkRead); api.Error != nil {
+	// if api.Error = qs.Filter("ID__exact", nID).One(&linkRead); api.Error != nil {
 	// 	return
 	// }
 	// if link.Name != "" && !strings.EqualFold(linkRead.Name, link.Name) {
@@ -179,7 +179,7 @@ func (api *LinkAPI) Patch() {
 	_, api.Error = db.Update(&linkRead)
 }
 
-// Delete 执行http请求DELETE方法（beego定义的接口，删除某个链接）
+// Delete 执行http请求DELETE方法（删除某个链接）
 func (api *LinkAPI) Delete() {
 	// 包装并处理返回结果
 	defer func() {
@@ -199,5 +199,5 @@ func (api *LinkAPI) Delete() {
 
 	// 删除数据
 	db := orm.NewOrm()
-	_, api.Error = db.Delete(&models.Link{ID: nID})
+	_, api.Error = db.Delete(&models.Link{ID: int(nID)})
 }

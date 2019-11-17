@@ -47,7 +47,7 @@ func initDb() {
 		port = 3306
 	}
 	if name == "" {
-		name = "saneryao.com"
+		name = "saneryao_bgadmin"
 	}
 	if charset == "" {
 		charset = "urf8"
@@ -81,8 +81,7 @@ func initDb() {
 	orm.RegisterModelWithPrefix(prefix, new(models.Menu))
 	orm.RegisterModelWithPrefix(prefix, new(models.Link))
 	orm.RegisterModelWithPrefix(prefix, new(models.UserRole))
-	orm.RegisterModelWithPrefix(prefix, new(models.RoleMenu))
-	orm.RegisterModelWithPrefix(prefix, new(models.RoleLink))
+	orm.RegisterModelWithPrefix(prefix, new(models.RolePower))
 	orm.RegisterModelWithPrefix(prefix, new(models.Code))
 	orm.RunSyncdb("default", false, true)
 }

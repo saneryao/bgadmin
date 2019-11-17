@@ -14,7 +14,7 @@ type RoleAPI struct {
 	baseAPI
 }
 
-// Get 执行http请求GET方法（beego定义的接口，查询角色列表）
+// Get 执行http请求GET方法（查询角色列表）
 func (api *RoleAPI) Get() {
 	// 定义变量
 	params := validators.FilterParams{}
@@ -59,7 +59,7 @@ func (api *RoleAPI) Get() {
 	}
 }
 
-// Post 执行http请求POST方法（beego定义的接口，新建角色）
+// Post 执行http请求POST方法（新建角色）
 func (api *RoleAPI) Post() {
 	// 包装并处理返回结果
 	role := models.Role{}
@@ -90,7 +90,7 @@ func (api *RoleAPI) Post() {
 	_, api.Error = db.Insert(&role)
 }
 
-// Put 执行http请求PUT方法（beego定义的接口，更新某个角色的所有信息）
+// Put 执行http请求PUT方法（更新某个角色的所有信息）
 func (api *RoleAPI) Put() {
 	// 包装并处理返回结果
 	role := models.Role{}
@@ -116,8 +116,8 @@ func (api *RoleAPI) Put() {
 
 	// 查询数据
 	db := orm.NewOrm()
-	roleRead := models.Role{ID: nID}
-	if api.Error = db.Read(&roleRead, "id"); api.Error != nil {
+	roleRead := models.Role{ID: int(nID)}
+	if api.Error = db.Read(&roleRead, "ID"); api.Error != nil {
 		return
 	}
 	if role.Name != "" && !strings.EqualFold(roleRead.Name, role.Name) {
@@ -126,11 +126,11 @@ func (api *RoleAPI) Put() {
 	}
 
 	// 更新数据
-	role.ID = nID
+	role.ID = int(nID)
 	_, api.Error = db.Update(&role)
 }
 
-// Patch 执行http请求PATCH方法（beego定义的接口，更新某个角色的一部分信息）
+// Patch 执行http请求PATCH方法（更新某个角色的一部分信息）
 func (api *RoleAPI) Patch() {
 	// 包装并处理返回结果
 	roleRead := models.Role{}
@@ -148,7 +148,7 @@ func (api *RoleAPI) Patch() {
 	if nID, api.Error = validators.ParseIDFromURL(&api.Controller, ":id"); api.Error != nil {
 		return
 	}
-	roleRead.ID = nID
+	roleRead.ID = int(nID)
 
 	// 获取并校验输入信息
 	role := models.Role{}
@@ -159,7 +159,7 @@ func (api *RoleAPI) Patch() {
 	// 查询数据
 	db := orm.NewOrm()
 	qs := db.QueryTable(new(models.Role))
-	if api.Error = qs.Filter("Id__exact", nID).One(&roleRead); api.Error != nil {
+	if api.Error = qs.Filter("ID__exact", nID).One(&roleRead); api.Error != nil {
 		return
 	}
 	if role.Name != "" && !strings.EqualFold(roleRead.Name, role.Name) {
@@ -176,7 +176,7 @@ func (api *RoleAPI) Patch() {
 	_, api.Error = db.Update(&roleRead)
 }
 
-// Delete 执行http请求DELETE方法（beego定义的接口，删除某个角色）
+// Delete 执行http请求DELETE方法（删除某个角色）
 func (api *RoleAPI) Delete() {
 	// 包装并处理返回结果
 	defer func() {
@@ -196,5 +196,5 @@ func (api *RoleAPI) Delete() {
 
 	// 删除数据
 	db := orm.NewOrm()
-	_, api.Error = db.Delete(&models.Role{ID: nID})
+	_, api.Error = db.Delete(&models.Role{ID: int(nID)})
 }

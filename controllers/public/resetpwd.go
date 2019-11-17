@@ -9,7 +9,7 @@ type ResetPwdController struct {
 	controllers.CommonController
 }
 
-// Get 执行http请求GET方法（beego定义的接口，显示用户重置密码页面）
+// Get 执行http请求GET方法（显示用户重置密码页面）
 func (api *ResetPwdController) Get() {
 	api.SetTpl("public/resetpwd.tpl", "public/header_resetpwd.tpl", "public/footer_resetpwd.tpl")
 }

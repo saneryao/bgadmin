@@ -11,7 +11,7 @@ type baseAPI struct {
 	v1.CommonAPI
 }
 
-// Prepare 在执行http请求Method方法前执行（beego定义的接口，检查用户是否登录及登录后的访问权限）
+// Prepare 在执行http请求Method方法前执行（检查用户是否登录及登录后的访问权限）
 func (api *baseAPI) Prepare() {
 	api.CommonAPI.Prepare() // 执行父类同名函数
 

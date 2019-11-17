@@ -33,6 +33,12 @@ func ParseFilterParams(paramsInfo *FilterParams, ctrl *beego.Controller) (result
 		return
 	}
 	logs.Debug("%#v", paramsInfo)
+	if paramsInfo.Limit == 0 {
+		paramsInfo.Limit = 1000
+	}
+	if paramsInfo.PerPage == 0 {
+		paramsInfo.PerPage = 1000
+	}
 
 	// 数据校验
 	valid := validation.Validation{}

@@ -11,10 +11,10 @@
 				<thead>
 					<tr>
 						<th width="100">{{i18n .Lang "id"}}</th>
-						<th>{{i18n .Lang "username"}}</th>
+						<th width="150">{{i18n .Lang "username"}}</th>
 						<th width="80">{{i18n .Lang "state"}}</th>
-						<th>{{i18n .Lang "sex"}}</th>
-						<th>{{i18n .Lang "nick"}}</th>
+						<th width="80">{{i18n .Lang "sex"}}</th>
+						<th width="150">{{i18n .Lang "nick"}}</th>
 						<th>{{i18n .Lang "email"}}</th>
 						<th width="100">{{i18n .Lang "mobile"}}</th>
 						<th width="100">{{i18n .Lang "birth"}}</th>
@@ -28,6 +28,7 @@
 	</div><!-- /.col -->
 </div><!-- /.row -->
 
+<!-- 弹出框，编辑用户信息 -->
 <a href="#modal-info" role="button" class="hidden" data-toggle="modal" id="btn-modal"></a>
 <div id="modal-info" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
@@ -178,6 +179,40 @@
 	</div><!-- /.modal-dialog -->
 </div>
 
+<!-- 弹出框，查看用户角色并分配 -->
+<a href="#modal-assign" role="button" class="hidden" data-toggle="modal" id="btn-assign"></a>
+<div id="modal-assign" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header text-info bg-primary">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="assign-title"></h4>
+			</div>
+			<div class="modal-body lead text-left no-padding" id="assign-content">
+				<h4 class="modal-title" id="assign-title"></h4>
+                <div class="widget-box transparent" id="user-role-box">
+                    <div class="widget-header">
+                        <h4 class="widget-title lighter smaller">
+                            <i class="ace-icon fa fa-user-secret orange"></i><span id="assign-user-name"></span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="get-roles-error"></span>
+                        </h4>
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="widget-main padding-4">
+                            <div class="tab-content padding-8">
+                                <div id="role-tab" class="tab-pane active">
+                                    <ul class="item-list" id="user-roles"></ul>
+                                </div>
+                            </div>
+                        </div><!-- /.widget-main -->
+                    </div><!-- /.widget-body -->
+                </div><!-- /.widget-box -->
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
 <!-- page specific plugin scripts -->
 <script type='text/javascript'>
 	var scripts = [null,'/static/assets/js/jquery.dataTables.min.js','/static/assets/js/jquery.dataTables.bootstrap.min.js','/static/assets/js/dataTables.buttons.min.js','/static/assets/js/buttons.flash.min.js','/static/assets/js/buttons.html5.min.js','/static/assets/js/buttons.print.min.js','/static/assets/js/buttons.colVis.min.js','/static/js/jszip-2.5.0.min.js',/*'/static/js/pdfmake-0.1.36.min.js','/static/js/vfs_fonts--msyh.js',*/'/static/assets/js/dataTables.select.min.js','/static/assets/js/jquery-ui.custom.min.js','/static/assets/js/jquery.ui.touch-punch.min.js','/static/assets/js/chosen.jquery.min.js','/static/assets/js/spinbox.min.js','/static/assets/js/bootstrap-datepicker.min.js','/static/js/bootstrap-datepicker.locale.js','/static/js/jquery.validate.{{.Lang}}.js',null];
@@ -210,6 +245,28 @@
         }
         return false;
 	}
+	function change_user_role(checked,user_id,role_id) {
+        //data = '{"user_id":'+user_id+',"role_id":'+role_id+'}';
+        data = new FormData();
+        data.append("user_id", user_id);
+        data.append("role_id", role_id);
+        $.ajax({
+            url: (checked?'{{urlfor "UserRoleAPI.Post"}}/':'{{urlfor "UserRoleAPI.Delete"}}/') + user_id,
+            type: (checked?'POST':'DELETE'),
+            cache: false,
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function (info) {
+                if (! info.code) {
+                    $('#get-roles-error').html('<i class="ace-icon fa fa-warning red"></i>'+info.error);
+                }
+            },
+            error: function (xhr, msg, e) {
+                $('#get-roles-error').html('<i class="ace-icon fa fa-warning red"></i>'+xhr.status+msg);
+            },
+        })
+    }
 
 	jQuery(function($) {
 		$("#form-info").validate({  
@@ -272,9 +329,9 @@
 						};
 					},
 					error: function (xhr, msg, e) {
-						console.log(xhr.status);          // 状态码
+						console.log(xhr.status);      // 状态码
 						console.log(xhr.readyState);  // 状态
-						console.log(msg);                 // 错误信息
+						console.log(msg);             // 错误信息
 						alert("" + xhr.status + msg);
 					}
 				},
@@ -365,7 +422,7 @@
 				columnDefs: [ {
 					targets: -1,
 					data: 'Id',
-					defaultContent: '<a id="edit" href="javascript:void(0);" class="green" data-rel="tooltip" title="{{i18n .Lang "edit"}}"><span class="blue"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="assign" href="javascript:void(0);" class="blue" data-rel="tooltip" title="{{i18n .Lang "assign"}}"><span class="blue"><i class="ace-icon fa fa-th bigger-120"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="del" href="javascript:void(0);" data-rel="tooltip" title="{{i18n .Lang "del"}}"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a>',
+					defaultContent: '<a id="edit" href="javascript:void(0);" class="green" data-rel="tooltip" title="{{i18n .Lang "edit"}}"><span class="blue"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="assign" href="javascript:void(0);" class="blue" data-rel="tooltip" title="{{i18n .Lang "power"}}"><span class="blue"><i class="ace-icon fa fa-th bigger-120"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="del" href="javascript:void(0);" data-rel="tooltip" title="{{i18n .Lang "del"}}"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a>',
 				} ],
 			} );
 
@@ -407,6 +464,54 @@
 				$('#btn-modal').click();
 			});
 
+			// 分配用户角色
+            $('#dynamic_table tbody').on( 'click', 'a#assign', function () {
+                myRow = myTable.row( $(this).parents('tr') );
+                var data = myRow.data();
+                $('#assign-title').html('{{i18n .Lang "assign"}}{{i18n .Lang "role"}}{{i18n .Lang "power"}}{{i18n .Lang "page"}}');
+                $('#assign-user-name').html(data.name);
+                $('#btn-assign').click();
+                $('#user-roles').empty();
+                $.ajax({
+                    url: '{{urlfor "RoleAPI.Get"}}?limit=1000&perpage=1000',
+                    type: 'GET',
+                    success: function (info) {
+                        if (info.code) {
+                            var obj = $('#user-roles');
+                            var roles = info.data;
+                            for (var i = 0; i < roles.length; i++) {
+                                var row = roles[i];
+                                obj.append('<li class="item-blue clearfix" id="role_'+row.id+'"><label class="inline"><input type="checkbox" class="ace" onclick="change_user_role(this.checked,'+data['id']+','+row.id+');" /><span class="lbl"> '+row.name+'</span></label></li>');
+                            }
+                            $('#get-roles-error').html('');
+
+                            $.ajax({
+                                url: '{{urlfor "UserRoleAPI.Get"}}/' + data['id'],
+                                type: 'GET',
+                                success: function (info) {
+                                    if (info.code) {
+                                        var roles = info.data.Roles;
+                                        for (var i = 0; i < roles.length; i++) {
+                                            $('#role_'+roles[i].id+' input').attr('checked','checked');
+                                        }
+                                    } else {
+                                        $('#get-roles-error').html('<i class="ace-icon fa fa-warning red"></i>'+info.error);
+                                    }
+                                },
+                                error: function (xhr, msg, e) {
+                                    $('#get-roles-error').html('<i class="ace-icon fa fa-warning red"></i>'+xhr.status+msg);
+                                },
+                            })
+                        } else {
+                            $('#get-roles-error').html('<i class="ace-icon fa fa-warning red"></i>'+info.error);
+                        }
+                    },
+                    error: function (xhr, msg, e) {
+                        $('#get-roles-error').html('<i class="ace-icon fa fa-warning red"></i>'+xhr.status+msg);
+                    },
+                });
+            });
+
 			// 数据删除
 			$('#dynamic_table tbody').on( 'click', 'a#del', function () {
 				if (confirm('确定删除吗？')) {
@@ -429,9 +534,9 @@
 							}
 						},
 						error: function (xhr, msg, e) {
-							console.log(xhr.status);          // 状态码
+							console.log(xhr.status);      // 状态码
 							console.log(xhr.readyState);  // 状态
-							console.log(msg);                 // 错误信息
+							console.log(msg);             // 错误信息
 							alert("" + xhr.status + msg);
 						},
 					})

@@ -11,7 +11,7 @@
 				<thead>
 					<tr>
 						<th width="100">{{i18n .Lang "id"}}</th>
-						<th>{{i18n .Lang "name"}}</th>
+						<th width="150">{{i18n .Lang "name"}}</th>
 						<th>{{i18n .Lang "desc"}}</th>
 						<th width="80">{{i18n .Lang "state"}}</th>
 						<th width="120">{{i18n .Lang "operation"}}</th>
@@ -24,6 +24,7 @@
 	</div><!-- /.col -->
 </div><!-- /.row -->
 
+<!-- 弹出框，编辑角色信息 -->
 <a href="#modal-info" role="button" class="hidden" data-toggle="modal" id="btn-modal"></a>
 <div id="modal-info" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
@@ -88,6 +89,7 @@
 	</div><!-- /.modal-dialog -->
 </div>
 
+<!-- 弹出框，查看角色权限并分配 -->
 <a href="#modal-assign" role="button" class="hidden" data-toggle="modal" id="btn-assign"></a>
 <div id="modal-assign" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
@@ -96,47 +98,39 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="assign-title"></h4>
 			</div>
-			<div class="modal-body lead text-center no-padding" id="assign-content">
-				<form id="form-assign">
-				<fieldset>
-					<div class="space-4"></div>
-					<div class="row no-padding">
-						<div class="col-sm-2 col-sm-offset-1">
-							<label>{{i18n .Lang "name"}}</label>
-						</div>
-						<div class="col-sm-8">
-							<input type="text" name="role" class="form-control" disabled="disabled" placeholder="{{i18n .Lang "role"}}{{i18n .Lang "name"}}" />
-						</div>
-					</div>
+			<div class="modal-body lead text-left no-padding" id="assign-content">
+				<h4 class="modal-title" id="assign-title"></h4>
+                <div class="widget-box transparent" id="role-power-box">
+                    <div class="widget-header">
+                        <h4 class="widget-title lighter smaller">
+                            <i class="ace-icon fa fa-user-secret orange"></i><span id="assign-role-name"></span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="get-menus-error"></span>
+                        </h4>
+                        <div class="widget-toolbar no-border">
+                            <ul class="nav nav-tabs" id="role-power-tab">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#menu-tab">{{i18n .Lang "menu"}}</a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#link-tab">{{i18n .Lang "link"}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
-					<div class="space-4"></div>
-					<div class="row">
-						<div class="col-sm-2 col-sm-offset-1">
-							<label>{{i18n .Lang "menu"}}</label>
-						</div>
-						<div class="col-sm-8">
-							<select name="relation" class="form-control" required>
-								<option value="1">{{i18n .Lang "enable"}}</option>
-								<option value="0">{{i18n .Lang "disable"}}</option>
-							</select>
-						</div>
-					</div>
-
-					<div class="space-4"></div>
-					<div class="row">
-						<div class="col-xs-7 col-xs-offset-4 col-sm-8 col-sm-offset-3 pull-left text-left">
-							<button type="reset" class="btn btn-danger">
-								<i class="ace-icon fa fa-refresh"></i>
-								<span class="bigger-110">{{i18n .Lang "reset"}}</span>
-							</button>&nbsp;&nbsp;&nbsp;&nbsp;
-							<button type="sumbit" class="btn btn-success">
-								<i class="ace-icon fa fa-check"></i>
-								<span class="bigger-110">{{i18n .Lang "save"}}</span>
-							</button>
-						</div>
-					</div>
-					</fieldset>
-				</form>
+                    <div class="widget-body">
+                        <div class="widget-main padding-4">
+                            <div class="tab-content padding-8">
+                                <div id="menu-tab" class="tab-pane active">
+                                    <ul class="item-list" id="role-menus"></ul>
+                                </div>
+                                <div id="link-tab" class="tab-pane">
+                                    <ul class="item-list" id="role-links"></ul>
+                                </div>
+                            </div>
+                        </div><!-- /.widget-main -->
+                    </div><!-- /.widget-body -->
+                </div><!-- /.widget-box -->
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -174,9 +168,42 @@
         }
         return false;
 	}
+	function change_role_power(checked,role_id,menu_id,link_id) {
+	    //data = '{"role_id":'+role_id+',"menu_id":'+menu_id+',"link_id":'+link_id+'}';
+	    data = new FormData();
+	    data.append("role_id", role_id);
+	    data.append("menu_id", menu_id);
+	    data.append("link_id", link_id);
+        $.ajax({
+            url: (checked?'{{urlfor "RolePowerAPI.Post"}}/':'{{urlfor "RolePowerAPI.Delete"}}/') + role_id,
+            type: (checked?'POST':'DELETE'),
+            cache: false,
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function (info) {
+                if (! info.code) {
+                    if (menu_id != 0) {
+                        $('#get-menus-error').html('<i class="ace-icon fa fa-warning red"></i>'+info.error);
+                    }
+                    if (link_id != 0) {
+                        $('#get-links-error').html('<i class="ace-icon fa fa-warning red"></i>'+info.error);
+                    }
+                }
+            },
+            error: function (xhr, msg, e) {
+                if (menu_id != 0) {
+                    $('#get-menus-error').html('<i class="ace-icon fa fa-warning red"></i>'+xhr.status+msg);
+                }
+                if (link_id != 0) {
+                    $('#get-links-error').html('<i class="ace-icon fa fa-warning red"></i>'+xhr.status+msg);
+                }
+            },
+        })
+    }
 
 	jQuery(function($) {
-		$("#form-info").validate({  
+		$("#form-info").validate({
 			errorElement:'div',
 			errorPlacement: function(error, element) {
 				if ($(element).next("div").hasClass("tooltip")) {
@@ -236,15 +263,15 @@
 						};
 					},
 					error: function (xhr, msg, e) {
-						console.log(xhr.status);          // 状态码
+						console.log(xhr.status);      // 状态码
 						console.log(xhr.readyState);  // 状态
-						console.log(msg);                 // 错误信息
+						console.log(msg);             // 错误信息
 						alert("" + xhr.status + msg);
 					},
 				},
 				processing: true,
 				paging: true,
-				lengthMenu: [20,50,100,1000],
+				lengthMenu: [1000],
 				ordering: false,
 				info: true,
 				buttons: [
@@ -325,11 +352,11 @@
 				columnDefs: [ {
 					targets: -1,
 					data: 'Id',
-					defaultContent: '<a id="edit" href="javascript:void(0);" class="green" data-rel="tooltip" title="{{i18n .Lang "edit"}}"><span class="blue"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="assign" href="javascript:void(0);" class="blue" data-rel="tooltip" title="{{i18n .Lang "assign"}}"><span class="blue"><i class="ace-icon fa fa-th bigger-120"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="del" href="javascript:void(0);" data-rel="tooltip" title="{{i18n .Lang "del"}}"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a>',
+					defaultContent: '<a id="edit" href="javascript:void(0);" class="green" data-rel="tooltip" title="{{i18n .Lang "edit"}}"><span class="blue"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="assign" href="javascript:void(0);" class="blue" data-rel="tooltip" title="{{i18n .Lang "power"}}"><span class="blue"><i class="ace-icon fa fa-th bigger-120"></i></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="del" href="javascript:void(0);" data-rel="tooltip" title="{{i18n .Lang "del"}}"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a>',
 				} ],
 			} );
 
-			// 数据编辑
+			// 编辑角色信息
 			$('#dynamic_table tbody').on( 'click', 'a#edit', function () {
 				myRow = myTable.row( $(this).parents('tr') );
 				var data = myRow.data();
@@ -348,47 +375,81 @@
 				$('#btn-modal').click();
 			});
 
-			// 分配菜单
+			// 分配角色权限
 			$('#dynamic_table tbody').on( 'click', 'a#assign', function () {
 				myRow = myTable.row( $(this).parents('tr') );
 				var data = myRow.data();
-				$('input[name="role"]').val(data.name);
-				$('input[name="role"]').attr('value',data.name);
-				$('#form-assign').attr('action', '{{urlfor "RoleMenuApi.Post"}}/'+data.id);
-				$('#form-assign').attr('method', 'POST');
-				$('#form-assign')[0].reset();
-				$('#btn-assign').click();
-				$.ajax({
-					url: '{{urlfor "RoleMenuApi.Get"}}/' + data['id'],
-					type: 'GET',
-					success: function (info) {
-						if (info.code) {
-							var obj = $('select[name="relation"]');
-							obj.empty();
-							var menus = info.data;
-							for (var i = 0; i < menus.length; i++) {
-								var row = menus[i];
-								var state = menus[i].state ? '"selected"="selected"' : '' ;
-								if (row.parent_id == 0) {
-									obj.append('<option value="'+row.id+'" '+state+'>'+row.name+'</option>');
-								} else {
-									obj.append('<option value="'+row.id+'" '+state+'>&nbsp;&nbsp;&nbsp;&nbsp;└'+row.name+'</option>');
-								}
-							}
-						} else {
-							// $('#msg-title').html('{{i18n .Lang "operate"}}{{i18n .Lang "failed"}}');
-							// $('#msg-content').html(info.error);
-							// $('#msg-dialog').modal('show');
-							alert(info.error);
-						}
-					},
-					error: function (xhr, msg, e) {
-						console.log(xhr.status);          // 状态码
-						console.log(xhr.readyState);  // 状态
-						console.log(msg);                 // 错误信息
-						alert("" + xhr.status + msg);
-					},
-				})
+				$('#assign-title').html('{{i18n .Lang "assign"}}{{i18n .Lang "role"}}{{i18n .Lang "power"}}{{i18n .Lang "page"}}');
+				$('#assign-role-name').html(data.name);
+                $('#btn-assign').click();
+                $('#role-menus').empty();
+                $('#role-links').empty();
+                $.ajax({
+                    url: '{{urlfor "MenuAPI.Get"}}?limit=1000&perpage=1000',
+                    type: 'GET',
+                    success: function (info) {
+                        if (info.code) {
+                            var obj = $('#role-menus');
+                            var menus = info.data;
+                            for (var i = 0; i < menus.length; i++) {
+                                var row = menus[i];
+                                if (row.parent_id == 0) {
+                                    obj.append('<li class="item-blue clearfix" id="menu_'+row.id+'"><label class="inline"><input type="checkbox" class="ace" onclick="change_role_power(this.checked,'+data['id']+','+row.id+',0);" /><span class="lbl"> '+row.name+'</span></label></li>');
+                                } else {
+                                    obj.append('<li class="item-blue clearfix" id="menu_'+row.id+'"><label class="inline"><input type="checkbox" class="ace" onclick="change_role_power(this.checked,'+data['id']+','+row.id+',0);" /><span class="lbl"> &nbsp;&nbsp;&nbsp;&nbsp;└'+row.name+'</span></label></li>');
+                                }
+                            }
+                            $('#get-menus-error').html('');
+
+                            $.ajax({
+                                url: '{{urlfor "LinkAPI.Get"}}?limit=1000&perpage=1000',
+                                type: 'GET',
+                                success: function (info) {
+                                    if (info.code) {
+                                        var obj = $('#role-links');
+                                        var links = info.data;
+                                        for (var i = 0; i < links.length; i++) {
+                                            var row = links[i];
+                                            obj.append('<li class="item-blue clearfix" id="link_'+row.id+'"><label class="inline"><input type="checkbox" class="ace" onclick="change_role_power(this.checked,'+data['id']+',0,'+row.id+');" /><span class="lbl"> '+row.name+'（'+row.url+'）</span></label></li>');
+                                        }
+                                        $('#get-links-error').html('');
+                                        $.ajax({
+                                            url: '{{urlfor "RolePowerAPI.Get"}}/' + data['id'],
+                                            type: 'GET',
+                                            success: function (info) {
+                                                if (info.code) {
+                                                    var menus = info.data.Menus;
+                                                    var links = info.data.Links;
+                                                    for (var i = 0; i < menus.length; i++) {
+                                                        $('#menu_'+menus[i].id+' input').attr('checked','checked');
+                                                    }
+                                                    for (var i = 0; i < links.length; i++) {
+                                                        $('#link_'+links[i].id+' input').attr('checked','checked');
+                                                    }
+                                                } else {
+                                                    $('#get-menus-error').html('<i class="ace-icon fa fa-warning red"></i>'+info.error);
+                                                }
+                                            },
+                                            error: function (xhr, msg, e) {
+                                                $('#get-menus-error').html('<i class="ace-icon fa fa-warning red"></i>'+xhr.status+msg);
+                                            },
+                                        })
+                                    } else {
+                                        $('#get-menus-error').html('<i class="ace-icon fa fa-warning red"></i>'+info.error);
+                                    }
+                                },
+                                error: function (xhr, msg, e) {
+                                    $('#get-menus-error').html('<i class="ace-icon fa fa-warning red"></i>'+xhr.status+msg);
+                                },
+                            });
+                        } else {
+                            $('#get-menus-error').html('<i class="ace-icon fa fa-warning red"></i>'+info.error);
+                        }
+                    },
+                    error: function (xhr, msg, e) {
+                        $('#get-menus-error').html('<i class="ace-icon fa fa-warning red"></i>'+xhr.status+msg);
+                    },
+                });
 			});
 
 			// 数据删除
@@ -413,14 +474,45 @@
 							}
 						},
 						error: function (xhr, msg, e) {
-							console.log(xhr.status);          // 状态码
+							console.log(xhr.status);      // 状态码
 							console.log(xhr.readyState);  // 状态
-							console.log(msg);                 // 错误信息
+							console.log(msg);             // 错误信息
 							alert("" + xhr.status + msg);
 						},
 					})
 				}
 			});
+
+			// 角色权限变更（勾选/权限菜单或链接）
+            $('#dynamic_table tbody').on( 'click', 'a#del', function () {
+                if (confirm('确定删除吗？')) {
+                    var data = myTable.row( $(this).parents('tr') ).data();
+                    $.ajax({
+                        url: '{{urlfor "RoleAPI.Delete"}}/' + data['id'],
+                        type: 'DELETE',
+                        success: function (info) {
+                            if (info.code) {
+                                $('#msg-title').html('{{i18n .Lang "operate"}}{{i18n .Lang "success"}}');
+                                $('#msg-content').html(info.msg);
+                                $('#msg-dialog').modal('show');
+                                // alert(info.msg);
+                                refresh_data();
+                            } else {
+                                $('#msg-title').html('{{i18n .Lang "operate"}}{{i18n .Lang "failed"}}');
+                                $('#msg-content').html(info.error);
+                                $('#msg-dialog').modal('show');
+                                // alert(info.error);
+                            }
+                        },
+                        error: function (xhr, msg, e) {
+                            console.log(xhr.status);      // 状态码
+                            console.log(xhr.readyState);  // 状态
+                            console.log(msg);             // 错误信息
+                            alert("" + xhr.status + msg);
+                        },
+                    })
+                }
+            });
 
 			////
 			setTimeout(function() {

@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/beego/i18n"
+	"github.com/saneryao/bgadmin/conf"
 	"github.com/saneryao/bgadmin/models"
 	"time"
 )
@@ -19,7 +20,7 @@ func Active(id int64, code string, ctrl *beego.Controller, lang string) (err err
 	}
 
 	// 判断有效期
-	if ac.CreateTime > time.Now().Unix()-86400 {
+	if time.Now().Sub(ac.CreateTime) > conf.ActiveCodeValidPeriod {
 		err = errors.New(i18n.Tr(lang, "active_code") + i18n.Tr(lang, "expired"))
 		return
 	}

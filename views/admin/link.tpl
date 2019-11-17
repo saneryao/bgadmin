@@ -1,9 +1,9 @@
-<title>{{i18n .Lang "site_name"}} {{i18n .Lang "back_short"}} - {{i18n .Lang "api"}}</title>
+<title>{{i18n .Lang "site_name"}} {{i18n .Lang "back_short"}} - {{i18n .Lang "link"}}</title>
 
 <div class="row">
 	<div class="col-xs-12">
 		<div class="table-header">
-			<span class="white"><b>{{i18n .Lang "api"}}{{i18n .Lang "list"}}</b></span>
+			<span class="white"><b>{{i18n .Lang "link"}}{{i18n .Lang "list"}}</b></span>
 		</div>
 
 		<div>
@@ -13,7 +13,6 @@
 						<th width="100">{{i18n .Lang "id"}}</th>
 						<th>{{i18n .Lang "name"}}</th>
 						<th>{{i18n .Lang "url"}}</th>
-						<th width="80">{{i18n .Lang "operation"}}</th>
 						<th width="80">{{i18n .Lang "operation"}}</th>
 					</tr>
 				</thead>
@@ -271,7 +270,7 @@
 				$('input[name="name"]').attr('value',data.name);
 				$('input[name="url"]').val(data.url);
 				$('input[name="url"]').attr('value',data.url);
-				$('#info-title').html('{{i18n .Lang "edit"}}{{i18n .Lang "api"}}{{i18n .Lang "page"}}');
+				$('#info-title').html('{{i18n .Lang "edit"}}{{i18n .Lang "link"}}{{i18n .Lang "page"}}');
 				$('#form-info')[0].reset();
 				$('#btn-modal').click();
 			});
@@ -316,7 +315,7 @@
 					$('input[name="name"]').val('');
 					$('input[name="url"]').removeAttr('value');
 					$('input[name="url"]').val('');
-					$('#info-title').html('{{i18n .Lang "add"}}{{i18n .Lang "api"}}{{i18n .Lang "page"}}');
+					$('#info-title').html('{{i18n .Lang "add"}}{{i18n .Lang "link"}}{{i18n .Lang "page"}}');
 					$('#form-info')[0].reset();
 					$('#btn-modal').click();
 				});

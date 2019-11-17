@@ -9,7 +9,7 @@ type PageController struct {
 	baseController
 }
 
-// Get 执行http请求GET方法（beego定义的接口，渲染页面）
+// Get 执行http请求GET方法（渲染页面）
 // 默认先显示后台管理html框架（加载html、css、js和导航栏、左侧菜单），
 // 再通过page参数显示左侧菜单对应的子页面
 func (api *PageController) Get() {

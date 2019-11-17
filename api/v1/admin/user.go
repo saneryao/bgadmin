@@ -14,7 +14,7 @@ type UserAPI struct {
 	baseAPI
 }
 
-// Get 执行http请求GET方法（beego定义的接口，查询用户列表）
+// Get 执行http请求GET方法（查询用户列表）
 func (api *UserAPI) Get() {
 	// 定义变量
 	params := validators.FilterParams{}
@@ -59,7 +59,7 @@ func (api *UserAPI) Get() {
 	}
 }
 
-// Post 执行http请求POST方法（beego定义的接口，新建用户）
+// Post 执行http请求POST方法（新建用户）
 func (api *UserAPI) Post() {
 	// 包装并处理返回结果
 	profile := models.Profile{}
@@ -96,7 +96,7 @@ func (api *UserAPI) Post() {
 	_, api.Error = db.Insert(&user)
 }
 
-// Put 执行http请求PUT方法（beego定义的接口，更新某个用户的所有信息）
+// Put 执行http请求PUT方法（更新某个用户的所有信息）
 func (api *UserAPI) Put() {
 	// 包装并处理返回结果
 	profile := models.Profile{}
@@ -125,7 +125,7 @@ func (api *UserAPI) Put() {
 	// 查询数据
 	db := orm.NewOrm()
 	userRead := models.User{ID: nID}
-	if api.Error = db.Read(&userRead, "Id"); api.Error != nil {
+	if api.Error = db.Read(&userRead, "ID"); api.Error != nil {
 		return
 	}
 	if user.Name != "" && !strings.EqualFold(userRead.Name, user.Name) {
@@ -142,7 +142,7 @@ func (api *UserAPI) Put() {
 	_, api.Error = db.Update(&user)
 }
 
-// Patch 执行http请求PATCH方法（beego定义的接口，更新某个用户的一部分信息）
+// Patch 执行http请求PATCH方法（更新某个用户的一部分信息）
 func (api *UserAPI) Patch() {
 	// 包装并处理返回结果
 	userRead := models.User{}
@@ -171,7 +171,7 @@ func (api *UserAPI) Patch() {
 	// 查询数据
 	db := orm.NewOrm()
 	qs := db.QueryTable(new(models.User))
-	if api.Error = qs.Filter("Id__exact", nID).RelatedSel().One(&userRead); api.Error != nil {
+	if api.Error = qs.Filter("ID__exact", nID).RelatedSel().One(&userRead); api.Error != nil {
 		return
 	}
 	if user.Name != "" && !strings.EqualFold(userRead.Name, user.Name) {
@@ -191,7 +191,7 @@ func (api *UserAPI) Patch() {
 	_, api.Error = db.Update(&userRead)
 }
 
-// Delete 执行http请求DELETE方法（beego定义的接口，删除某个用户）
+// Delete 执行http请求DELETE方法（删除某个用户）
 func (api *UserAPI) Delete() {
 	// 包装并处理返回结果
 	defer func() {
@@ -212,7 +212,7 @@ func (api *UserAPI) Delete() {
 	// 查询数据
 	db := orm.NewOrm()
 	userRead := models.User{ID: nID}
-	if api.Error = db.Read(&userRead, "Id"); api.Error != nil {
+	if api.Error = db.Read(&userRead, "ID"); api.Error != nil {
 		return
 	}
 

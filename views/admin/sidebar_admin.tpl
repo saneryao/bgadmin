@@ -78,7 +78,7 @@
 
 				<li class="">
 					<a data-url="page/link" href="#page/link">
-						<i class="menu-icon fa fa-caret-right"></i>{{i18n .Lang "api"}}
+						<i class="menu-icon fa fa-caret-right"></i>{{i18n .Lang "link"}}
 					</a>
 					<b class="arrow"></b>
 				</li>
