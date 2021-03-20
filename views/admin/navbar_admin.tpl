@@ -1,4 +1,4 @@
-<div id="navbar" class="navbar navbar-default          ace-save-state">
+<div id="navbar" class="navbar navbar-default ace-save-state">
 	<div class="navbar-container ace-save-state" id="navbar-container">
 		<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
 			<span class="sr-only">Toggle sidebar</span>

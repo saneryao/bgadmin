@@ -41,6 +41,6 @@ func Login(params *validators.LoginParams, ctrl *beego.Controller, lang string) 
 	}
 
 	// 设置登录Session信息
-	SetLoginInfo(ctrl, user)
+	SetLoginUser(ctrl, user)
 	return
 }

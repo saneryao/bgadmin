@@ -12,7 +12,7 @@ type LogoutController struct {
 
 // Get 执行http请求GET方法（处理用户注销操作及注销后页面跳转）
 func (api *LogoutController) Get() {
-	service.SetLogoutInfo(&api.Controller)
+	service.CleanLoginInfo(&api.Controller)
 	api.Redirect(api.URLFor("LoginController.Get"), 302)
 	api.StopRun()
 }

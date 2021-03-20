@@ -69,7 +69,7 @@ INSERT INTO `321_user` (`id`, `name`, `pwd`, `state`, `profile_id`) VALUES
 -- ----------------------------
 DROP TABLE IF EXISTS `321_profile`;
 CREATE TABLE `321_profile`  (
-    d` bigint(20) NOT NULL AUTO_INCREMENT,
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `sex` int(11) NULL DEFAULT NULL,
     `birth` date NULL DEFAULT NULL,
     `nick` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
@@ -139,17 +139,17 @@ CREATE TABLE `321_menu`  (
 -- Records of 321_menu
 -- ----------------------------
 INSERT INTO `321_menu` (`id`, `parent_id`, `name`, `icon`, `url`, `state`) VALUES
-    (1, 0, '系统首页', 'fa-home', '', 1),
+    (1, 0, '系统首页', 'fa-home', 'page/index', 1),
     (2, 0, '用户和权限', 'fa-users', '', 1),
-    (3, 2, '用户', '', '/#page/user', 1),
-    (4, 2, '角色', '', '/#page/role', 1),
-    (5, 2, '菜单', '', '/#page/menu', 1),
-    (6, 2, 'API', '', '/#page/link', 1),
+    (3, 2, '用户', '', 'page/user', 1),
+    (4, 2, '角色', '', 'page/role', 1),
+    (5, 2, '菜单', '', 'page/menu', 1),
+    (6, 2, 'API', '', 'page/link', 1),
     (7, 0, '更多示例', 'fa-info-circle', '', 1),
-    (8, 7, '页面', '', '/#page/demo', 1),
-    (9, 7, '排版', '', '/#page/grid', 1),
-    (10, 7, '按钮', '', '/#page/button', 1),
-    (11, 7, '图标', '', '/#page/icon', 1);
+    (8, 7, '页面', '', 'page/demo', 1),
+    (9, 7, '排版', '', 'page/grid', 1),
+    (10, 7, '按钮', '', 'page/button', 1),
+    (11, 7, '图标', '', 'page/icon', 1);
 
 -- ----------------------------
 -- Table structure for 321_link
@@ -171,10 +171,10 @@ CREATE TABLE `321_link`  (
 -- ----------------------------
 INSERT INTO `321_link` (`id`, `name`, `url`, `power`, `state`) VALUES
     (1, '统计', '/api/v1/statistics', 1, 1),
-    (2, '用户', '/api/v1/users', 31, 1),
-    (3, '角色', '/api/v1/roles', 31, 1),
-    (4, '菜单', '/api/v1/menus', 31, 1),
-    (5, 'API', '/api/v1/links', 31, 1);
+    (2, '用户', '/api/v1/user', 31, 1),
+    (3, '角色', '/api/v1/role', 31, 1),
+    (4, '菜单', '/api/v1/menu', 31, 1),
+    (5, 'API', '/api/v1/link', 31, 1);
 
 -- ----------------------------
 -- Table structure for 321_role_power
@@ -182,9 +182,9 @@ INSERT INTO `321_link` (`id`, `name`, `url`, `power`, `state`) VALUES
 DROP TABLE IF EXISTS `321_role_power`;
 CREATE TABLE `321_role_power`  (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `role_id` bigint(20) NOT NULL DEFAULT 0,
-    `menu_id` bigint(20) NOT NULL DEFAULT 0,
-    `link_id` bigint(20) NOT NULL DEFAULT 0,
+    `role_id` int(20) NOT NULL DEFAULT 0,
+    `menu_id` int(20) NOT NULL DEFAULT 0,
+    `link_id` int(20) NOT NULL DEFAULT 0,
     `link_power` int(11) NOT NULL DEFAULT 0,
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`) USING BTREE

@@ -202,9 +202,9 @@
 						};
 					},
 					error: function (xhr, msg, e) {
-						console.log(xhr.status);          // 状态码
+						console.log(xhr.status);      // 状态码
 						console.log(xhr.readyState);  // 状态
-						console.log(msg);                 // 错误信息
+						console.log(msg);             // 错误信息
 						alert("" + xhr.status + msg);
 					},
 					complete: function (xhr, msg, e) {

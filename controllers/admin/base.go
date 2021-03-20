@@ -25,7 +25,7 @@ func (api *baseController) Prepare() {
 	}
 
 	// 设置用户信息
-	api.UserInfo = service.GetLoginInfo(&api.Controller)
+	api.UserInfo = service.GetLoginUser(&api.Controller)
 	api.Data["UserName"] = api.UserInfo.Name
 	if api.UserInfo.Profile == nil || api.UserInfo.Profile.Nick == "" {
 		api.Data["UserNick"] = api.UserInfo.Name

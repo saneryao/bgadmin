@@ -17,13 +17,13 @@ func CheckLogin(ctrl *beego.Controller) (result bool) {
 	return
 }
 
-// SetLoginInfo 登录后设置用户信息到session
-func SetLoginInfo(ctrl *beego.Controller, info interface{}) {
+// SetLoginUser 登录后设置用户信息到session
+func SetLoginUser(ctrl *beego.Controller, info models.User) {
 	ctrl.SetSession("USER_INFO", info)
 }
 
-// GetLoginInfo：从session中获取用户信息
-func GetLoginInfo(ctrl *beego.Controller) (user models.User) {
+// GetLoginUser：从session中获取用户信息
+func GetLoginUser(ctrl *beego.Controller) (user models.User) {
 	info := ctrl.GetSession("USER_INFO")
 
 	// 类型断言
@@ -33,8 +33,40 @@ func GetLoginInfo(ctrl *beego.Controller) (user models.User) {
 	return
 }
 
-// SetLogoutInfo 注销时清空session信息
-func SetLogoutInfo(ctrl *beego.Controller) {
+// SetUserMenus 登录后设置用户的菜单信息到session
+func SetUserMenus(ctrl *beego.Controller, info []models.Menu) {
+	ctrl.SetSession("USER_MENUS", info)
+}
+
+// GetUserMenus：从session中获取用户信息
+func GetUserMenus(ctrl *beego.Controller) (menus []models.Menu) {
+	info := ctrl.GetSession("USER_MENUS")
+
+	// 类型断言
+	if info != nil {
+		menus, _ = info.([]models.Menu)
+	}
+	return
+}
+
+// SetUserLinks 登录后设置用户信息到session
+func SetUserLinks(ctrl *beego.Controller, info []models.Link) {
+	ctrl.SetSession("USER_LINKS", info)
+}
+
+// GetUserLinks：从session中获取用户信息
+func GetUserLinks(ctrl *beego.Controller) (links []models.Link) {
+	info := ctrl.GetSession("USER_LINKS")
+
+	// 类型断言
+	if info != nil {
+		links, _ = info.([]models.Link)
+	}
+	return
+}
+
+// CleanLoginInfo 注销时清空session信息
+func CleanLoginInfo(ctrl *beego.Controller) {
 	ctrl.DestroySession()
 }
 

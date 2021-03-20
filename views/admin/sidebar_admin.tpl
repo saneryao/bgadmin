@@ -34,6 +34,7 @@
 	</div><!-- /.sidebar-shortcuts -->
 
 	<ul class="nav nav-list">
+	    <!--
 		<li class="">
 			<a data-url="page/index" href="#page/index">
 				<i class="menu-icon fa fa-home"></i>
@@ -130,6 +131,35 @@
 			</ul>
 		</li>
 		<b class="arrow"></b>
+		-->
+		{{print .Menus}}
+		{{range $index,$menu := .Menus}}
+		    {{if $menu.ParentID eq 0}}
+		        <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-users"></i>
+                        <span class="menu-text"> {{i18n .Lang "$menu.Name"}} </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        {{range $subIndex,$subMenu := .Menus}}
+                            {{if $menu.ID eq $subMenu.ParentID}}
+                                <li class="">
+                                    <a data-url="$subMenu.URL" href="#$subMenu.URL">
+                                        <i class="menu-icon fa fa-caret-right"></i>{{i18n .Lang "user"}}
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                                <b class="arrow"></b>
+                            {{end}}
+                        {{end}}
+                    </ul>
+                </li>
+                <b class="arrow"></b>
+		    {{end}}
+		{{end}}
 	</ul><!-- /.nav-list -->
 
 	<div class="sidebar-footer text-center green">

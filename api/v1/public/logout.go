@@ -12,7 +12,7 @@ type LogoutAPI struct {
 
 // Post 执行http请求POST方法（处理用户注销操作）
 func (api *LogoutAPI) Post() {
-	service.SetLogoutInfo(&api.Controller)
+	service.CleanLoginInfo(&api.Controller)
 	api.Data["json"] = map[string]interface{}{"code": true, "msg": api.Tr("redirecting"), "url": api.URLFor("HomeController.Get")}
 	api.ServeJSON()
 }

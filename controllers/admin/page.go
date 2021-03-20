@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"github.com/saneryao/bgadmin/service"
 	"strings"
 )
 
@@ -21,6 +22,11 @@ func (api *PageController) Get() {
 			"admin/footer_admin.tpl",
 			"admin/navbar_admin.tpl",
 			"admin/sidebar_admin.tpl")
+		menus := service.GetUserMenus(&api.Controller)
+		if len(menus) <= 0 {
+			api.Abort("Ajax401")
+		}
+		api.Data["Menus"] = menus
 	case strings.EqualFold(strPage, "index"):
 		fallthrough
 	case strings.EqualFold(strPage, "user"):
@@ -44,6 +50,11 @@ func (api *PageController) Get() {
 	case strings.EqualFold(strPage, "profile"):
 		api.Layout = ""
 		api.TplName = "admin/" + strPage + ".tpl"
+		menus := service.GetUserMenus(&api.Controller)
+		if len(menus) <= 0 {
+			api.Abort("Ajax401")
+		}
+		api.Data["Menus"] = menus
 	default:
 		api.Abort("Ajax404")
 	}
